@@ -6,9 +6,16 @@ export default mergeConfig(
   {
     mode: 'development',
     server: {
+      port: 9117,
       open: true,
       fs: {
         strict: true,
+      },
+      proxy: {
+        '/fdapi': {
+          target: 'http://localhost:9118',
+          changeOrigin: true,
+        },
       },
     },
     plugins: [

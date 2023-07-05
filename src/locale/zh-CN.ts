@@ -5,6 +5,8 @@ import localeWorkplace from '@/views/dashboard/workplace/locale/zh-CN';
 
 import localeSysManage from '@/views/sys-manage/locale/zh-CN';
 
+import localeCustomerManage from '@/views/customer/locale/zh-CN';
+
 import localeSettings from './zh-CN/settings';
 
 export default {
@@ -24,6 +26,7 @@ export default {
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
   ...localeSysManage,
+  ...localeCustomerManage,
   ...localeSettings,
   ...localeMessageBox,
   ...localeLogin,
