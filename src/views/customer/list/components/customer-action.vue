@@ -2,7 +2,7 @@
   <a-row style="margin-bottom: 16px">
     <a-col :span="12">
       <a-space>
-        <a-button type="primary">
+        <a-button type="primary" @click="gotoCreate">
           <template #icon>
             <icon-plus />
           </template>
@@ -84,17 +84,23 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, watch, nextTick } from 'vue';
+  import { computed, ref, nextTick } from 'vue';
   import { useI18n } from 'vue-i18n';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import cloneDeep from 'lodash/cloneDeep';
   import Sortable from 'sortablejs';
+  import { useRouter } from 'vue-router';
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
   const { t } = useI18n();
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
+  const router = useRouter();
+
+  const gotoCreate = () => {
+    router.push('detail');
+  };
 
   const size = ref<SizeProps>('medium');
 

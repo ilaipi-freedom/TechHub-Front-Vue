@@ -12,6 +12,9 @@
     <template #index="{ rowIndex }">
       {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
     </template>
+    <template #idSlot="{ record }">
+      <a-link @click="gotoDetail(record)">{{ record.id }}</a-link>
+    </template>
     <template #weixin="{ record }">
       {{ renderAccount(record, 'weixin', 'Id') }}
     </template>
@@ -32,6 +35,7 @@
 <script lang="ts" setup>
   import { computed, ref, reactive, watch } from 'vue';
   import { useI18n } from 'vue-i18n';
+  import { useRouter } from 'vue-router';
   import useLoading from '@/hooks/loading';
   import { queryCustomerList, CustomerParams, Customer } from '@/api/customer';
   import { Pagination } from '@/types/global';
@@ -41,6 +45,7 @@
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
+  const router = useRouter();
 
   const { loading, setLoading } = useLoading(true);
   const { t } = useI18n();
@@ -71,6 +76,10 @@
     return '-';
   };
 
+  const gotoDetail = (record: Customer) => {
+    router.push(`detail/${record.id}`);
+  };
+
   const basePagination: Pagination = {
     current: 1,
     pageSize: 20,
@@ -87,6 +96,7 @@
     {
       title: t('customer.list.columns.id'),
       dataIndex: 'id',
+      slotName: 'idSlot',
     },
     {
       title: t('customer.list.columns.weixin'),

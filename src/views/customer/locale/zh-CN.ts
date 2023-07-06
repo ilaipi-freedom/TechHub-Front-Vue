@@ -1,6 +1,7 @@
 export default {
   'menu.customer': '客户管理',
   'menu.customer.list': '客户列表',
+  'menu.customer.detail': '客户详情',
   'customer.list.create': '新增',
   'customer.detail': '客户详情',
   'customer.list.q': '关键字',

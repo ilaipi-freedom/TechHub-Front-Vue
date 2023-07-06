@@ -22,6 +22,23 @@ const DASHBOARD: AppRouteRecordRaw = {
       },
       component: () => import('@/views/customer/list/index.vue'),
     },
+    {
+      path: 'detail',
+      name: 'detail',
+      meta: {
+        requiresAuth: true,
+        roles: ['*'],
+        hideInMenu: true,
+      },
+      component: () => import('@/views/customer/detail/index.vue'),
+      children: [
+        {
+          path: ':id',
+          name: 'detail',
+          component: () => import('@/views/customer/detail/index.vue'),
+        },
+      ],
+    },
   ],
 };
 
