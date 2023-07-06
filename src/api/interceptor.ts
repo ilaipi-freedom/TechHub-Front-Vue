@@ -1,7 +1,6 @@
 import axios from 'axios';
 import type { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { Message, Modal } from '@arco-design/web-vue';
-import { useUserStore } from '@/store';
+import { Message } from '@arco-design/web-vue';
 import { getToken } from '@/utils/auth';
 
 export interface HttpResponse<T = unknown> {
@@ -38,8 +37,7 @@ axios.interceptors.request.use(
 // add response interceptors
 axios.interceptors.response.use(
   (response: AxiosResponse<HttpResponse>) => {
-    const res = response.data;
-    return res;
+    return response;
   },
   (error) => {
     Message.error({

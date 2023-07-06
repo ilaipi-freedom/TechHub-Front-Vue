@@ -1,12 +1,17 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.customer', 'menu.customer.list']" />
-    <DeptListPanel />
+    <CustomerListSearch />
+    <CustomerListAction />
+    <a-divider style="margin-top: 0" />
+    <CustomerListTable />
   </div>
 </template>
 
 <script lang="ts" setup>
-  import DeptListPanel from './components/dept-list.vue';
+  import CustomerListSearch from './components/customer-search.vue';
+  import CustomerListAction from './components/customer-action.vue';
+  import CustomerListTable from './components/customer-list.vue';
 </script>
 
 <script lang="ts">

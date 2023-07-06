@@ -21,8 +21,10 @@ export interface CustomerListRes {
   total: number;
 }
 
-export function queryCustomerList(params: CustomerParams) {
-  return axios.get<CustomerListRes>('/fdapi/customer/list', {
+export function queryCustomerList(
+  params: CustomerParams
+): Promise<CustomerListRes> {
+  return axios.get('/fdapi/customer/list', {
     params,
     paramsSerializer: (obj) => {
       return qs.stringify(obj);
