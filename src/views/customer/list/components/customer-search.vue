@@ -84,59 +84,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, reactive } from 'vue';
-  import useLoading from '@/hooks/loading';
-  import { PolicyRecord, PolicyParams } from '@/api/list';
-  import { queryCustomerList, CustomerParams } from '@/api/customer';
-  import { Pagination } from '@/types/global';
+  import { reactive } from 'vue';
 
-  const generateFormModel = () => {
-    return {
-      q: '',
-      status: '',
-      firstMessageTime: '',
-      orderTime: '',
-      deliveryTime: '',
-    };
-  };
-  const { _loading, setLoading } = useLoading(true);
-  const renderData = ref<PolicyRecord[]>([]);
-  const formModel = ref(generateFormModel());
-
-  const basePagination: Pagination = {
-    current: 1,
-    pageSize: 20,
-  };
-  const pagination = reactive({
-    ...basePagination,
-  });
-  const fetchData = async (
-    params: CustomerParams = { current: 1, pageSize: 20 }
-  ) => {
-    setLoading(true);
-    try {
-      const data = await queryCustomerList(params);
-      renderData.value = data.list;
-      pagination.current = params.current;
-      pagination.total = data.total;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const search = () => {
-    fetchData({
-      ...basePagination,
-      ...formModel.value,
-    } as unknown as PolicyParams);
-  };
-
-  fetchData();
-  const reset = () => {
-    formModel.value = generateFormModel();
-  };
+  const formModel = reactive({});
 </script>
 
 <script lang="ts">

@@ -6,7 +6,9 @@
         <CustomerDetailContact />
       </div>
       <div class="layout-content">
-        <a-space :size="16" direction="vertical" fill></a-space>
+        <a-space :size="16" direction="vertical" fill>
+          <CustomerDetailRemark />
+        </a-space>
       </div>
     </div>
   </div>
@@ -14,6 +16,7 @@
 
 <script lang="ts" setup>
   import CustomerDetailContact from './components/detail-contact.vue';
+  import CustomerDetailRemark from './components/detail-remark.vue';
 </script>
 
 <script lang="ts">

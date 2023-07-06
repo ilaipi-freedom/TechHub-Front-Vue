@@ -37,7 +37,11 @@
   import { useI18n } from 'vue-i18n';
   import { useRouter } from 'vue-router';
   import useLoading from '@/hooks/loading';
-  import { queryCustomerList, CustomerParams, Customer } from '@/api/customer';
+  import {
+    queryCustomerList,
+    CustomerParams,
+    Customer,
+  } from '@/api/customer/list';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import cloneDeep from 'lodash/cloneDeep';
@@ -92,11 +96,15 @@
       title: t('customer.list.columns.index'),
       dataIndex: 'index',
       slotName: 'index',
+      width: 50,
     },
     {
       title: t('customer.list.columns.id'),
       dataIndex: 'id',
       slotName: 'idSlot',
+      width: 150,
+      ellipsis: true,
+      tooltip: true,
     },
     {
       title: t('customer.list.columns.weixin'),

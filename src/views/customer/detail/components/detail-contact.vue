@@ -59,7 +59,7 @@
     getCustomer,
     updateCustomer,
     createCustomer,
-  } from '@/api/customer';
+  } from '@/api/customer/list';
   import { useRoute } from 'vue-router';
 
   const route = useRoute();
