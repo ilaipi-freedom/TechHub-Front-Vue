@@ -1,8 +1,20 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.customer', 'menu.customer.detail']" />
+    <div class="layout">
+      <div class="layout-left-side">
+        <CustomerDetailContact />
+      </div>
+      <div class="layout-content">
+        <a-space :size="16" direction="vertical" fill></a-space>
+      </div>
+    </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+  import CustomerDetailContact from './components/detail-contact.vue';
+</script>
 
 <script lang="ts">
   export default {
@@ -13,7 +25,6 @@
 <style scoped lang="less">
   .container {
     padding: 0 20px 20px 20px;
-    background-color: #fff;
   }
 
   .layout {
@@ -21,7 +32,6 @@
 
     &-left-side {
       flex-basis: 300px;
-      border-right: 1px solid #0000001a;
     }
 
     &-content {
@@ -48,6 +58,10 @@
         padding: 0;
         order: -1;
         margin-bottom: 16px;
+      }
+
+      &-right-side {
+        flex-basis: 100%;
       }
     }
   }
