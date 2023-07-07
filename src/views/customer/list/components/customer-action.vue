@@ -8,7 +8,7 @@
           </template>
           {{ $t('searchTable.operation.create') }}
         </a-button>
-        <a-upload action="/">
+        <a-upload action="/fdapi/customer/upload">
           <template #upload-button>
             <a-button>
               {{ $t('searchTable.operation.import') }}
@@ -124,8 +124,7 @@
   ]);
 
   const handleSelectDensity = (
-    val: string | number | Record<string, any> | undefined,
-    e: Event
+    val: string | number | Record<string, any> | undefined
   ) => {
     size.value = val as SizeProps;
   };

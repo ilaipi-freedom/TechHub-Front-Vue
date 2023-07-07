@@ -20,7 +20,7 @@ export interface CustomerOrder {
 }
 
 export function queryCustomerOrderList(customerId: string) {
-  return axios.get('/fdapi/customer-order/list', { params: customerId });
+  return axios.get('/fdapi/customer-order/list', { params: { customerId } });
 }
 
 export function updateCustomerOrder(payload: Partial<CustomerOrder>) {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from 'query-string';
 
 export interface CustomerRemark {
   id: string;
@@ -8,7 +9,12 @@ export interface CustomerRemark {
 }
 
 export function queryCustomerRemarkList(customerId: string) {
-  return axios.get('/fdapi/customer-remark/list', { params: customerId });
+  return axios.get('/fdapi/customer-remark/list', {
+    params: { customerId },
+    paramsSerializer: (obj) => {
+      return qs.stringify(obj);
+    },
+  });
 }
 
 export function updateCustomerRemark(payload: Partial<CustomerRemark>) {
