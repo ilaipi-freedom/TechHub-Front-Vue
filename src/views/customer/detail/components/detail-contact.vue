@@ -45,6 +45,7 @@
           v-model="formData.firstMessageTime"
           show-time
           placeholder="Please select ..."
+          :style="{ width: '100%' }"
         />
       </a-form-item>
     </a-form>
