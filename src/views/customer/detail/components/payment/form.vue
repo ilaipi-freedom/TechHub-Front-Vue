@@ -53,6 +53,7 @@
 
 <script lang="ts" setup>
   import { ref, toRef } from 'vue';
+  import { useRoute } from 'vue-router';
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
@@ -65,6 +66,8 @@
   import PaymentMethod from '@/types/PaymentType';
 
   const { setLoading } = useLoading();
+  const route = useRoute();
+  const customerId = ref<string>(route.params.id as string);
 
   const fromOptions = Object.entries(PaymentMethod).map(([key, value]) => ({
     label: value,
@@ -88,7 +91,10 @@
       if (props.payment?.id) {
         await updateCustomerPayment({ ...payload });
       } else {
-        await createCustomerPayment({ ...payload });
+        await createCustomerPayment({
+          ...payload,
+          customerId: customerId.value,
+        });
       }
       await props.refresh();
       props.cancel();

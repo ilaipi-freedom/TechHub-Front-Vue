@@ -6,7 +6,7 @@ export interface CustomerPayment {
   id: string;
   payTime: string;
   amount: string;
-  consumerId: string;
+  customerId: string;
   accountId: string;
   orderId?: string;
   payMethod: PaymentMethod;

@@ -7,7 +7,7 @@ export interface CustomerOrder {
   firstMessageTime: string;
   orderTime: string;
   deliveryTime: string;
-  consumerId: string;
+  customerId: string;
   accountId: string;
   from: OrderFrom;
   status: OrderStatus;

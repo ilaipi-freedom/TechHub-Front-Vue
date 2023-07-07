@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
+  import { useRoute } from 'vue-router';
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
@@ -35,6 +36,7 @@
   } from '@/api/customer/remark';
 
   const { setLoading } = useLoading();
+  const route = useRoute();
 
   const props = defineProps<{
     remark?: CustomerRemark;
@@ -43,6 +45,7 @@
   }>();
   const formData = ref<Partial<CustomerRemark>>(props.remark || {});
   const formRef = ref<FormInstance>();
+  const customerId = ref<string>(route.params.id as string);
 
   const saveRemark = async () => {
     const res = await formRef.value?.validate();
@@ -52,7 +55,10 @@
       if (props.remark?.id) {
         await updateCustomerRemark({ ...payload });
       } else {
-        await createCustomerRemark({ ...payload });
+        await createCustomerRemark({
+          ...payload,
+          customerId: customerId.value,
+        });
       }
       await props.refresh();
       props.cancel();

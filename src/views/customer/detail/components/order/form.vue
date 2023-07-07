@@ -147,14 +147,21 @@
 
 <script lang="ts" setup>
   import { ref, toRef } from 'vue';
+  import { useRoute } from 'vue-router';
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
 
-  import { CustomerOrder, createCustomerOrder } from '@/api/customer/order';
+  import {
+    CustomerOrder,
+    createCustomerOrder,
+    updateCustomerOrder,
+  } from '@/api/customer/order';
   import { OrderFrom, OrderStatus } from '@/types/OrderType';
 
   const { setLoading } = useLoading();
+  const route = useRoute();
+  const customerId = ref<string>(route.params.id as string);
   const props = defineProps<{
     order?: CustomerOrder;
     cancel: () => void;
@@ -181,7 +188,11 @@
     const payload = formData.value;
     if (!res) {
       setLoading(true);
-      await createCustomerOrder({ ...payload });
+      if (props.order?.id) {
+        await updateCustomerOrder(payload);
+      } else {
+        await createCustomerOrder({ ...payload, customerId: customerId.value });
+      }
       await props.refresh();
       props.cancel();
       setLoading(false);
