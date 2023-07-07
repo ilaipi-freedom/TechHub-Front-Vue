@@ -28,23 +28,32 @@
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
-  import { CustomerRemark, createCustomerRemark } from '@/api/customer/remark';
+  import {
+    CustomerRemark,
+    createCustomerRemark,
+    updateCustomerRemark,
+  } from '@/api/customer/remark';
 
   const { setLoading } = useLoading();
 
-  const formData = ref<Partial<CustomerRemark>>({});
-  const formRef = ref<FormInstance>();
   const props = defineProps<{
+    remark?: CustomerRemark;
     cancel: () => void;
     refresh: () => Promise<void>;
   }>();
+  const formData = ref<Partial<CustomerRemark> | undefined>(props.remark);
+  const formRef = ref<FormInstance>();
 
   const saveRemark = async () => {
     const res = await formRef.value?.validate();
     const payload = formData.value;
     if (!res) {
       setLoading(true);
-      await createCustomerRemark({ ...payload });
+      if (props.remark?.id) {
+        await updateCustomerRemark({ ...payload });
+      } else {
+        await createCustomerRemark({ ...payload });
+      }
       await props.refresh();
       props.cancel();
       setLoading(false);

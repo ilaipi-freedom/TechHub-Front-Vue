@@ -12,11 +12,22 @@
         />
       </a-col>
       <a-col v-for="item in remarks" :key="item.id" class="list-col" :span="12">
-        <a-card :title="item.title">
+        <a-card v-if="item.id !== editingId" :title="item.title">
+          <template #extra>
+            <a-link type="primary" @click="() => edit(item.id as string)">
+              编辑
+            </a-link>
+          </template>
           <div class="multiline-text-container">
             <pre class="multiline-text">{{ item.content }}</pre>
           </div>
         </a-card>
+        <CustomerDetailEditRemark
+          v-if="item.id === editingId"
+          :remark="item as CustomerRemark"
+          :cancel="cancelEdit"
+          :refresh="initRemarks"
+        />
       </a-col>
     </a-row>
   </a-card>
@@ -40,6 +51,7 @@
 
   const route = useRoute();
   const customerId = ref<string>(route.params.id as string);
+  const editingId = ref<string>();
   const initRemarks = async () => {
     if (!customerId.value) {
       return;
@@ -50,6 +62,13 @@
     setLoading(false);
   };
   initRemarks();
+
+  const edit = (id: string) => {
+    editingId.value = id;
+  };
+  const cancelEdit = () => {
+    editingId.value = undefined;
+  };
 
   const add = () => {
     addingRemark.value = {};
