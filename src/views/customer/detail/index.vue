@@ -9,6 +9,7 @@
         <a-space :size="16" direction="vertical" fill>
           <CustomerDetailRemark />
           <CustomerDetailOrder />
+          <CustomerDetailPayment />
         </a-space>
       </div>
     </div>
@@ -19,6 +20,7 @@
   import CustomerDetailContact from './components/detail-contact.vue';
   import CustomerDetailRemark from './components/remark/detail-remark.vue';
   import CustomerDetailOrder from './components/order/index.vue';
+  import CustomerDetailPayment from './components/payment/index.vue';
 </script>
 
 <script lang="ts">

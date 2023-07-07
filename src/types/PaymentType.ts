@@ -1,5 +1,6 @@
-export enum PaymentMethod {
+enum PaymentMethod {
   XIANYU = '闲鱼',
   ALIPAY = '支付宝',
   WECHAT = '微信',
 }
+export default PaymentMethod;
