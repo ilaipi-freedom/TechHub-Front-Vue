@@ -15,7 +15,7 @@
         :span="24"
       >
         <a-descriptions
-          :data="transformOrder(item)"
+          :data="transformOrder(item as CustomerOrder)"
           layout="inline-vertical"
           bordered
           :column="2"
@@ -26,9 +26,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { h, ref } from 'vue';
+  import { h, ref, RenderFunction } from 'vue';
   import { useRoute } from 'vue-router';
   import dayjs from 'dayjs';
+  import { DescData } from '@arco-design/web-vue';
 
   import useLoading from '@/hooks/loading';
   import { CustomerOrder, queryCustomerOrderList } from '@/api/customer/order';
@@ -52,26 +53,36 @@
     setLoading(false);
   };
   initOrders();
-  const fieldsMap = [
+  const fieldsMap: {
+    field: string;
+    label: string;
+    format?: (v: string) => string | RenderFunction;
+  }[] = [
     {
       field: 'id',
       label: '订单id',
-      format: (v) => () => renderId(v),
+      format:
+        (v: string): RenderFunction =>
+        () =>
+          renderId(v),
     },
     {
       field: 'firstMessageTime',
       label: '首聊时间',
-      format: (v: string) => (v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-'),
+      format: (v: string): string =>
+        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       field: 'orderTime',
       label: '接单时间',
-      format: (v: string) => (v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-'),
+      format: (v: string): string =>
+        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       field: 'deliveryTime',
       label: '交付时间',
-      format: (v: string) => (v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-'),
+      format: (v: string): string =>
+        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
     },
     {
       field: 'from',
@@ -80,37 +91,38 @@
     {
       field: 'status',
       label: '状态',
-      format: (v) => getOrderStatusName(v),
+      format: (v: string) => getOrderStatusName(v),
     },
     {
       field: 'industry',
       label: '行业类型',
-      format: (v) => () => renderOrderText(v),
+      format: (v: string) => () => renderOrderText(v),
     },
     {
       field: 'industryDetail',
       label: '行业详情',
-      format: (v) => () => renderOrderText(v),
+      format: (v: string) => () => renderOrderText(v),
     },
     {
       field: 'content',
       label: '工作内容',
-      format: (v) => () => renderOrderText(v),
+      format: (v: string) => () => renderOrderText(v),
     },
     {
       field: 'repo',
       label: '仓库地址',
-      format: (v) => () => v ? h('a', { href: v, target: '_blank' }, v) : '-',
+      format: (v: string) => () =>
+        v ? h('a', { href: v, target: '_blank' }, v) : '-',
     },
     {
       field: 'detail',
       label: '工作详情',
-      format: (v) => () => renderOrderText(v),
+      format: (v: string) => () => renderOrderText(v),
     },
     {
       field: 'extra',
       label: '工作备注',
-      format: (v) => () => renderOrderText(v),
+      format: (v: string) => () => renderOrderText(v),
     },
   ];
 
@@ -125,8 +137,10 @@
   const transformOrder = (order: CustomerOrder) =>
     fieldsMap.map(({ label, field, format }) => ({
       label,
-      value: format ? format(order[field]) : order[field],
-    }));
+      value: format
+        ? format(order[field as keyof CustomerOrder] as string)
+        : order[field as keyof CustomerOrder],
+    })) as DescData[];
 
   const add = () => {
     addingOrder.value = {};

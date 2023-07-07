@@ -14,10 +14,12 @@ export enum OrderStatus {
   '未成单' = 99, // 未成单
 }
 
-export const getOrderStatusName = (value: number): string => {
+export const getOrderStatusName = (value: string): string => {
   const status = Object.keys(OrderStatus)
     .filter((key) => Number.isNaN(Number(key)))
-    .find((key) => OrderStatus[key as keyof typeof OrderStatus] === value);
+    .find(
+      (key) => OrderStatus[key as keyof typeof OrderStatus] === Number(value)
+    );
 
   return status || '';
 };
