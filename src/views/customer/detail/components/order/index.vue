@@ -18,6 +18,7 @@
           :data="transformOrder(item)"
           layout="inline-vertical"
           bordered
+          :column="2"
         />
       </a-grid-item>
     </a-grid>
@@ -55,6 +56,7 @@
     {
       field: 'id',
       label: '订单id',
+      format: (v) => () => renderId(v),
     },
     {
       field: 'firstMessageTime',
@@ -81,9 +83,24 @@
       format: (v) => getOrderStatusName(v),
     },
     {
+      field: 'industry',
+      label: '行业类型',
+      format: (v) => () => renderOrderText(v),
+    },
+    {
+      field: 'industryDetail',
+      label: '行业详情',
+      format: (v) => () => renderOrderText(v),
+    },
+    {
       field: 'content',
       label: '工作内容',
       format: (v) => () => renderOrderText(v),
+    },
+    {
+      field: 'repo',
+      label: '仓库地址',
+      format: (v) => () => v ? h('a', { href: v, target: '_blank' }, v) : '-',
     },
     {
       field: 'detail',
@@ -95,22 +112,15 @@
       label: '工作备注',
       format: (v) => () => renderOrderText(v),
     },
-    {
-      field: 'industry',
-      label: '行业类型',
-      format: (v) => () => renderOrderText(v),
-    },
-    {
-      field: 'industryDetail',
-      label: '行业详情',
-      format: (v) => () => renderOrderText(v),
-    },
   ];
 
   const renderOrderText = (itemContent: string) =>
-    h('div', { class: 'multiline-text-container' }, [
-      h('pre', { class: 'multiline-text' }, itemContent),
-    ]);
+    itemContent
+      ? h('div', { class: 'multiline-text-container' }, [
+          h('pre', { class: 'multiline-text' }, itemContent),
+        ])
+      : '-';
+  const renderId = (id: string) => h('p', {}, id);
 
   const transformOrder = (order: CustomerOrder) =>
     fieldsMap.map(({ label, field, format }) => ({
