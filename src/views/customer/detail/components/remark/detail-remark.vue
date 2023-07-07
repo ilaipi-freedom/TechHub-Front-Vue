@@ -13,7 +13,7 @@
       </a-col>
       <a-col v-for="item in remarks" :key="item.id" class="list-col" :span="12">
         <a-card :title="item.title">
-          {{ item.content }}
+          <pre>{{ item.content }}</pre>
         </a-card>
       </a-col>
     </a-row>
