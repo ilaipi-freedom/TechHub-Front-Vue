@@ -8,6 +8,7 @@
       <div class="layout-content">
         <a-space :size="16" direction="vertical" fill>
           <CustomerDetailRemark />
+          <CustomerDetailOrder />
         </a-space>
       </div>
     </div>
@@ -17,6 +18,7 @@
 <script lang="ts" setup>
   import CustomerDetailContact from './components/detail-contact.vue';
   import CustomerDetailRemark from './components/remark/detail-remark.vue';
+  import CustomerDetailOrder from './components/order/index.vue';
 </script>
 
 <script lang="ts">
@@ -28,10 +30,13 @@
 <style scoped lang="less">
   .container {
     padding: 0 20px 20px 20px;
+    height: 100%;
   }
 
   .layout {
     display: flex;
+    height: 100%;
+    padding-bottom: 50px;
 
     &-left-side {
       flex-basis: 300px;

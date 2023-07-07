@@ -1,5 +1,6 @@
 <template>
   <a-card
+    class="contact-panel"
     :body-style="{
       height: '100%',
       paddingTop: '16px',
@@ -105,4 +106,11 @@
   };
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  .contact-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--color-bg-2);
+  }
+</style>

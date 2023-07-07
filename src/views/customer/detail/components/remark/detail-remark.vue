@@ -13,7 +13,9 @@
       </a-col>
       <a-col v-for="item in remarks" :key="item.id" class="list-col" :span="12">
         <a-card :title="item.title">
-          <pre>{{ item.content }}</pre>
+          <div class="multiline-text-container">
+            <pre class="multiline-text">{{ item.content }}</pre>
+          </div>
         </a-card>
       </a-col>
     </a-row>
@@ -66,5 +68,12 @@
 <style scoped lang="less">
   .list-col {
     margin-bottom: 15px;
+  }
+  .multiline-text-container {
+    width: 100%;
+    .multiline-text {
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+    }
   }
 </style>
