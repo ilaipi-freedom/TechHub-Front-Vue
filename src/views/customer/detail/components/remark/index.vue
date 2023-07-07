@@ -88,11 +88,4 @@
   .list-col {
     margin-bottom: 15px;
   }
-  .multiline-text-container {
-    width: 100%;
-    .multiline-text {
-      white-space: pre-wrap;
-      overflow-wrap: break-word;
-    }
-  }
 </style>
