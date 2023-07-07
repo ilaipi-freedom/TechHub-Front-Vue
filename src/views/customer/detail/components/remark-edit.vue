@@ -10,6 +10,7 @@
       <a-textarea
         v-model="formData.content"
         placeholder="please enter your content..."
+        :style="{ minHeight: '100px' }"
         auto-size
       />
     </a-form-item>
