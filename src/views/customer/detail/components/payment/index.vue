@@ -12,13 +12,13 @@
         />
       </a-grid-item>
       <a-grid-item
-        v-for="(item, index) in orders"
+        v-for="(item, index) in payments"
         :key="item.id"
         class="list-col"
         :span="24"
       >
         <a-card v-if="editingId !== item.id" :bordered="false">
-          <template #title>支付次数：{{ index + 1 }}</template>
+          <template #title>支付次数：{{ payments.length - index }}</template>
           <template #extra>
             <a-link type="primary" @click="() => edit(item.id as string)">
               编辑
@@ -115,7 +115,7 @@
   const renderId = (id: string) => h('p', {}, id);
 
   const { setLoading } = useLoading();
-  const orders = ref<Partial<CustomerPayment>[]>([]);
+  const payments = ref<Partial<CustomerPayment>[]>([]);
   const addingPayment = ref<Partial<CustomerPayment>>();
   const initPayments = async () => {
     if (!customerId.value) {
@@ -123,7 +123,7 @@
     }
     setLoading(true);
     const { data } = await queryCustomerPaymentList(customerId.value);
-    orders.value = data;
+    payments.value = data;
     setLoading(false);
   };
   initPayments();

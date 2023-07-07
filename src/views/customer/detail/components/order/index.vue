@@ -9,16 +9,30 @@
         <CustomerDetailOrderForm :cancel="removeAdding" :refresh="initOrders" />
       </a-grid-item>
       <a-grid-item
-        v-for="item in orders"
+        v-for="(item, index) in orders"
         :key="item.id"
         class="list-col"
         :span="24"
       >
-        <a-descriptions
-          :data="transformOrder(item as CustomerOrder)"
-          layout="inline-vertical"
-          bordered
-          :column="2"
+        <a-card v-if="editingId !== item.id" :bordered="false">
+          <template #title>订单次数：{{ orders.length - index }}</template>
+          <template #extra>
+            <a-link type="primary" @click="() => edit(item.id as string)">
+              编辑
+            </a-link>
+          </template>
+          <a-descriptions
+            :data="transformOrder(item as CustomerOrder)"
+            layout="inline-vertical"
+            bordered
+            :column="2"
+          />
+        </a-card>
+        <CustomerDetailOrderForm
+          v-if="editingId === item.id"
+          :order="item as CustomerOrder"
+          :cancel="cancelEdit"
+          :refresh="initOrders"
         />
       </a-grid-item>
     </a-grid>
@@ -39,6 +53,7 @@
 
   const route = useRoute();
   const customerId = ref<string>(route.params.id as string);
+  const editingId = ref<string>();
 
   const { setLoading } = useLoading();
   const orders = ref<Partial<CustomerOrder>[]>([]);
@@ -141,6 +156,13 @@
         ? format(order[field as keyof CustomerOrder] as string)
         : order[field as keyof CustomerOrder],
     })) as DescData[];
+
+  const edit = (id: string) => {
+    editingId.value = id;
+  };
+  const cancelEdit = () => {
+    editingId.value = undefined;
+  };
 
   const add = () => {
     addingOrder.value = {};

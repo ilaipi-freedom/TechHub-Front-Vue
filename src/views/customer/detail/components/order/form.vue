@@ -146,7 +146,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, toRef } from 'vue';
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
@@ -155,8 +155,13 @@
   import { OrderFrom, OrderStatus } from '@/types/OrderType';
 
   const { setLoading } = useLoading();
+  const props = defineProps<{
+    order?: CustomerOrder;
+    cancel: () => void;
+    refresh: () => Promise<void>;
+  }>();
 
-  const formData = ref<Partial<CustomerOrder>>({});
+  const formData = toRef(props.order || ({} as CustomerOrder));
   const formRef = ref<FormInstance>();
 
   const fromOptions = Object.entries(OrderFrom).map(([key, value]) => ({
@@ -170,10 +175,6 @@
       label: OrderStatus[key as keyof typeof OrderStatus],
       value: key,
     }));
-  const props = defineProps<{
-    cancel: () => void;
-    refresh: () => Promise<void>;
-  }>();
 
   const saveOrder = async () => {
     const res = await formRef.value?.validate();
