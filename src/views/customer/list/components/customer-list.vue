@@ -71,7 +71,7 @@
     }
     const sk: keyof Customer = `${key}${suffix}` as keyof Customer;
     const idV: string = record[sk];
-    if (idV !== undefined && idV !== '') {
+    if (idV !== undefined && idV !== null && idV !== '') {
       result.push(`(${idV})`);
     }
     if (result.length) {
