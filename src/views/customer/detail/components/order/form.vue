@@ -167,7 +167,7 @@
   const statusOptions = Object.keys(OrderStatus)
     .filter((key) => !Number.isNaN(Number(key)))
     .map((key) => ({
-      label: OrderStatus[key],
+      label: OrderStatus[key as keyof typeof OrderStatus],
       value: key,
     }));
   const props = defineProps<{
