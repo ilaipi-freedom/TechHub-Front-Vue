@@ -41,7 +41,7 @@
     cancel: () => void;
     refresh: () => Promise<void>;
   }>();
-  const formData = ref<Partial<CustomerRemark> | undefined>(props.remark);
+  const formData = ref<Partial<CustomerRemark>>(props.remark || {});
   const formRef = ref<FormInstance>();
 
   const saveRemark = async () => {

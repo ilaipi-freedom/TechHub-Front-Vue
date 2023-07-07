@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
   import CustomerDetailContact from './components/detail-contact.vue';
-  import CustomerDetailRemark from './components/remark/detail-remark.vue';
+  import CustomerDetailRemark from './components/remark/index.vue';
   import CustomerDetailOrder from './components/order/index.vue';
   import CustomerDetailPayment from './components/payment/index.vue';
 </script>

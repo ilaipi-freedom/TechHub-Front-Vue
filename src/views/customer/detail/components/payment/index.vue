@@ -17,11 +17,25 @@
         class="list-col"
         :span="24"
       >
-        <a-descriptions
-          :data="transformPayment(item as CustomerPayment, index)"
-          layout="inline-vertical"
-          bordered
-          :column="2"
+        <a-card v-if="editingId !== item.id" :bordered="false">
+          <template #title>支付次数：{{ index + 1 }}</template>
+          <template #extra>
+            <a-link type="primary" @click="() => edit(item.id as string)">
+              编辑
+            </a-link>
+          </template>
+          <a-descriptions
+            :data="transformPayment(item as CustomerPayment)"
+            layout="inline-vertical"
+            bordered
+            :column="2"
+          />
+        </a-card>
+        <CustomerDetailPaymentForm
+          v-if="editingId === item.id"
+          :payment="item as CustomerPayment"
+          :cancel="cancelEdit"
+          :refresh="initPayments"
         />
       </a-grid-item>
     </a-grid>
@@ -44,6 +58,7 @@
 
   const route = useRoute();
   const customerId = ref<string>(route.params.id as string);
+  const editingId = ref<string>();
 
   const fieldsMap: {
     key: string;
@@ -63,6 +78,10 @@
       label: '支付方式',
     },
     {
+      key: 'amount',
+      label: '支付金额',
+    },
+    {
       key: 'payTime',
       label: '支付时间',
       format: (v: string): string =>
@@ -74,11 +93,8 @@
       format: (v: string) => () => renderPaymentText(v),
     },
   ];
-  const transformPayment = (
-    payment: CustomerPayment,
-    index: number
-  ): DescData[] => {
-    const descData: DescData[] = [{ label: '次数', value: `${index + 1}` }];
+  const transformPayment = (payment: CustomerPayment): DescData[] => {
+    const descData: DescData[] = [];
 
     const transformedFields = fieldsMap.map(({ key, label, format }) => ({
       label,
@@ -111,6 +127,13 @@
     setLoading(false);
   };
   initPayments();
+
+  const edit = (id: string) => {
+    editingId.value = id;
+  };
+  const cancelEdit = () => {
+    editingId.value = undefined;
+  };
 
   const add = () => {
     addingPayment.value = {};

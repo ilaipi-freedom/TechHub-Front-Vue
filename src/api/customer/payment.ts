@@ -5,7 +5,7 @@ import PaymentMethod from '@/types/PaymentType';
 export interface CustomerPayment {
   id: string;
   payTime: string;
-  amount: number;
+  amount: string;
   consumerId: string;
   accountId: string;
   orderId?: string;

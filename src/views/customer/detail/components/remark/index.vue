@@ -42,7 +42,7 @@
     queryCustomerRemarkList,
     CustomerRemark,
   } from '@/api/customer/remark';
-  import CustomerDetailEditRemark from './remark-edit.vue';
+  import CustomerDetailEditRemark from './form.vue';
 
   const { setLoading } = useLoading();
 
