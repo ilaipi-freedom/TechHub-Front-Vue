@@ -33,8 +33,9 @@
 
   const formData = ref<Partial<CustomerRemark>>({});
   const formRef = ref<FormInstance>();
-  defineProps<{
+  const props = defineProps<{
     cancel: () => void;
+    refresh: () => Promise<void>;
   }>();
 
   const saveRemark = async () => {
@@ -43,6 +44,8 @@
     if (!res) {
       setLoading(true);
       await createCustomerRemark({ ...payload });
+      await props.refresh();
+      props.cancel();
       setLoading(false);
     }
   };

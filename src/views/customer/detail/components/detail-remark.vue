@@ -6,10 +6,15 @@
     </template>
     <a-row class="list-row" :gutter="24">
       <a-col v-if="!!addingRemark" class="list-col" :span="12">
-        <CustomerDetailEditRemark :cancel="removeAdding" />
+        <CustomerDetailEditRemark
+          :cancel="removeAdding"
+          :refresh="initRemarks"
+        />
       </a-col>
       <a-col v-for="item in remarks" :key="item.id" class="list-col" :span="12">
-        内容：{{ item.content }}
+        <a-card :title="item.title">
+          {{ item.content }}
+        </a-card>
       </a-col>
     </a-row>
   </a-card>
@@ -58,4 +63,8 @@
   };
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+  .list-col {
+    margin-bottom: 15px;
+  }
+</style>
