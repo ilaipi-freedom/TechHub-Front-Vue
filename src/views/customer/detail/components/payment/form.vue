@@ -76,7 +76,6 @@
     cancel: () => void;
     refresh: () => Promise<void>;
   }>();
-  console.log('========payment', props.payment);
 
   const formData = toRef(props.payment || ({} as CustomerPayment));
   const formRef = ref<FormInstance>();

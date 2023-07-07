@@ -2,7 +2,7 @@
   <a-card>
     <template #title>备注信息</template>
     <template #extra>
-      <a-button type="primary" @click="add">添加</a-button>
+      <a-button v-if="!addingRemark" type="primary" @click="add">添加</a-button>
     </template>
     <a-row class="list-row" :gutter="24">
       <a-col v-if="!!addingRemark" class="list-col" :span="12">

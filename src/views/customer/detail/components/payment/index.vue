@@ -2,7 +2,9 @@
   <a-card>
     <template #title>支付信息</template>
     <template #extra>
-      <a-button type="primary" @click="add">添加</a-button>
+      <a-button v-if="!addingPayment" type="primary" @click="add">
+        添加
+      </a-button>
     </template>
     <a-grid :row-gap="15">
       <a-grid-item v-if="!!addingPayment" class="list-col" :span="24">

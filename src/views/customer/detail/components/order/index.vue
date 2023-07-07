@@ -2,7 +2,7 @@
   <a-card>
     <template #title>订单信息</template>
     <template #extra>
-      <a-button type="primary" @click="add">添加</a-button>
+      <a-button v-if="!addingOrder" type="primary" @click="add">添加</a-button>
     </template>
     <a-grid :row-gap="15">
       <a-grid-item v-if="!!addingOrder" class="list-col" :span="24">
