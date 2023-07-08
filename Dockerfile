@@ -4,14 +4,14 @@ WORKDIR /app
 
 FROM base as dependencies
 
-COPY package*.json .
+COPY package*.json ./
 
 RUN npm i
 
 FROM base as build
 
 COPY --from=dependencies /app/node_modules /app/node_modules
-COPY . .
+COPY . ./
 
 RUN npm run build
 
