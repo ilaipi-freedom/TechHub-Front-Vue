@@ -13,6 +13,24 @@
       <a-button type="primary" @click="onSubmitClick">保存</a-button>
     </template>
     <a-form ref="formRef" layout="vertical" auto-label-width :model="formData">
+      <a-form-item label="称呼" field="name" validate-trigger="input">
+        <a-input
+          v-model="formData.name"
+          placeholder="please enter your name..."
+        />
+      </a-form-item>
+      <a-form-item label="Email" field="email" validate-trigger="input">
+        <a-input
+          v-model="formData.email"
+          placeholder="please enter your email..."
+        />
+      </a-form-item>
+      <a-form-item label="手机号" field="phone" validate-trigger="input">
+        <a-input
+          v-model="formData.phone"
+          placeholder="please enter your phone..."
+        />
+      </a-form-item>
       <a-form-item label="微信" field="weixin" validate-trigger="input">
         <a-input
           v-model="formData.weixin"

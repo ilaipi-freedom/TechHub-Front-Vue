@@ -3,6 +3,9 @@ import qs from 'query-string';
 
 export interface Customer {
   id: string;
+  name: string;
+  email: string;
+  phone: string;
   weixin: string;
   weixinId: string;
   xianyu: string;
