@@ -6,11 +6,12 @@ export interface CustomerPayment {
   id: string;
   payTime: string;
   amount: string;
-  customerId: string;
-  accountId: string;
-  orderId?: string;
+  order?: string;
   payMethod: PaymentMethod;
   extra: string;
+  customer: string;
+  account: string;
+  project: string;
 }
 
 export function queryCustomerPaymentList(customerId: string) {

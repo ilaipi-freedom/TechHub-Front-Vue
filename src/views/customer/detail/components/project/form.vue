@@ -2,26 +2,17 @@
   <a-form ref="formRef" layout="vertical" auto-label-width :model="formData">
     <a-row :gutter="16">
       <a-col :span="8">
-        <a-form-item field="payMethod" label="支付方式">
-          <a-select
-            v-model="formData.payMethod"
-            placeholder="Please select ..."
-            allow-clear
-          >
-            <a-option
-              v-for="option in fromOptions"
-              :key="option.value"
-              :value="option.label"
-            >
-              {{ option.label }}
-            </a-option>
-          </a-select>
+        <a-form-item label="名称" field="title" validate-trigger="input">
+          <a-input
+            v-model="formData.title"
+            placeholder="please enter your title..."
+          />
         </a-form-item>
       </a-col>
       <a-col :span="8">
-        <a-form-item label="支付时间" field="payTime">
+        <a-form-item label="开始时间" field="begin">
           <a-date-picker
-            v-model="formData.payTime"
+            v-model="formData.begin"
             show-time
             placeholder="Please select ..."
             class="w-full"
@@ -29,11 +20,32 @@
         </a-form-item>
       </a-col>
       <a-col :span="8">
-        <a-form-item label="支付金额" field="amount" validate-trigger="input">
-          <a-input v-model="formData.amount" placeholder="Please Enter" />
+        <a-form-item label="结束时间" field="end">
+          <a-date-picker
+            v-model="formData.end"
+            show-time
+            placeholder="Please select ..."
+            class="w-full"
+          />
         </a-form-item>
       </a-col>
     </a-row>
+    <a-form-item label="项目描述" field="description" validate-trigger="input">
+      <a-textarea
+        v-model="formData.description"
+        placeholder="please enter your description..."
+        :style="{ minHeight: '100px' }"
+        auto-size
+      />
+    </a-form-item>
+    <a-form-item label="项目内容" field="content" validate-trigger="input">
+      <a-textarea
+        v-model="formData.content"
+        placeholder="please enter your extra..."
+        :style="{ minHeight: '100px' }"
+        auto-size
+      />
+    </a-form-item>
     <a-form-item label="备注" field="extra" validate-trigger="input">
       <a-textarea
         v-model="formData.extra"
@@ -44,7 +56,7 @@
     </a-form-item>
     <a-form-item>
       <a-space>
-        <a-button type="primary" @click="savePayment">保存</a-button>
+        <a-button type="primary" @click="saveProject">保存</a-button>
         <a-button @click="cancel">取消</a-button>
       </a-space>
     </a-form-item>
@@ -59,39 +71,33 @@
   import useLoading from '@/hooks/loading';
 
   import {
-    CustomerPayment,
-    createCustomerPayment,
-    updateCustomerPayment,
-  } from '@/api/customer/payment';
-  import PaymentMethod from '@/types/PaymentType';
+    CustomerProject,
+    createCustomerProject,
+    updateCustomerProject,
+  } from '@/api/customer/project';
 
   const { setLoading } = useLoading();
   const route = useRoute();
   const customerId = ref<string>(route.params.id as string);
 
-  const fromOptions = Object.entries(PaymentMethod).map(([key, value]) => ({
-    label: value,
-    value: key,
-  }));
-
   const props = defineProps<{
-    payment?: CustomerPayment;
+    project?: CustomerProject;
     cancel: () => void;
     refresh: () => Promise<void>;
   }>();
 
-  const formData = toRef(props.payment || ({} as CustomerPayment));
+  const formData = toRef(props.project || ({} as CustomerProject));
   const formRef = ref<FormInstance>();
 
-  const savePayment = async () => {
+  const saveProject = async () => {
     const res = await formRef.value?.validate();
     const payload = formData.value;
     if (!res) {
       setLoading(true);
-      if (props.payment?.id) {
-        await updateCustomerPayment({ ...payload });
+      if (props.project?.id) {
+        await updateCustomerProject({ ...payload });
       } else {
-        await createCustomerPayment({
+        await createCustomerProject({
           ...payload,
           customer: customerId.value,
         });
@@ -105,7 +111,7 @@
 
 <script lang="ts">
   export default {
-    name: 'CustomerDetailPaymentForm',
+    name: 'CustomerDetailProjectForm',
   };
 </script>
 

@@ -57,7 +57,7 @@
       } else {
         await createCustomerRemark({
           ...payload,
-          customerId: customerId.value,
+          customer: customerId.value,
         });
       }
       await props.refresh();

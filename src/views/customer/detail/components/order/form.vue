@@ -191,7 +191,7 @@
       if (props.order?.id) {
         await updateCustomerOrder(payload);
       } else {
-        await createCustomerOrder({ ...payload, customerId: customerId.value });
+        await createCustomerOrder({ ...payload, customer: customerId.value });
       }
       await props.refresh();
       props.cancel();

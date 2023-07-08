@@ -10,6 +10,7 @@
           <CustomerDetailRemark />
           <CustomerDetailOrder />
           <CustomerDetailPayment />
+          <CustomerDetailProject />
         </a-space>
       </div>
     </div>
@@ -21,6 +22,7 @@
   import CustomerDetailRemark from './components/remark/index.vue';
   import CustomerDetailOrder from './components/order/index.vue';
   import CustomerDetailPayment from './components/payment/index.vue';
+  import CustomerDetailProject from './components/project/index.vue';
 </script>
 
 <script lang="ts">

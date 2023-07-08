@@ -7,8 +7,6 @@ export interface CustomerOrder {
   firstMessageTime: string;
   orderTime: string;
   deliveryTime: string;
-  customerId: string;
-  accountId: string;
   from: OrderFrom;
   status: OrderStatus;
   content: string;
@@ -17,6 +15,9 @@ export interface CustomerOrder {
   industry: string;
   industryDetail: string;
   repo: string;
+  customer: string;
+  account: string;
+  project: string;
 }
 
 export function queryCustomerOrderList(customerId: string) {

@@ -5,7 +5,9 @@ export interface CustomerRemark {
   id: string;
   title: string;
   content: string;
-  customerId: string;
+  customer: string;
+  account: string;
+  project: string;
 }
 
 export function queryCustomerRemarkList(customerId: string) {
