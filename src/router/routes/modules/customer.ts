@@ -8,7 +8,7 @@ const DASHBOARD: AppRouteRecordRaw = {
   meta: {
     locale: 'menu.customer',
     requiresAuth: true,
-    icon: 'icon-dashboard',
+    icon: 'icon-user',
     order: 0,
   },
   children: [
@@ -19,6 +19,7 @@ const DASHBOARD: AppRouteRecordRaw = {
         locale: 'menu.customer.list',
         requiresAuth: true,
         roles: ['*'],
+        icon: 'icon-user-group',
       },
       component: () => import('@/views/customer/list/index.vue'),
     },
