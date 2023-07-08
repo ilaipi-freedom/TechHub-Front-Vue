@@ -13,7 +13,6 @@
         <a-form-item label="开始时间" field="begin">
           <a-date-picker
             v-model="formData.begin"
-            show-time
             placeholder="Please select ..."
             class="w-full"
           />
@@ -23,7 +22,6 @@
         <a-form-item label="结束时间" field="end">
           <a-date-picker
             v-model="formData.end"
-            show-time
             placeholder="Please select ..."
             class="w-full"
           />
@@ -65,10 +63,11 @@
 
 <script lang="ts" setup>
   import { ref, toRef } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
+  import { useCustomerStore } from '@/store/';
 
   import {
     CustomerProject,
@@ -77,8 +76,10 @@
   } from '@/api/customer/project';
 
   const { setLoading } = useLoading();
-  const route = useRoute();
-  const customerId = ref<string>(route.params.id as string);
+
+  const customerStore = useCustomerStore();
+
+  const { customerId } = storeToRefs(customerStore);
 
   const props = defineProps<{
     project?: CustomerProject;

@@ -20,7 +20,7 @@
         :span="24"
       >
         <a-card v-if="editingId !== item.id" :bordered="false">
-          <template #title>支付次数：{{ projects.length - index }}</template>
+          <template #title>项目 {{ projects.length - index }}</template>
           <template #extra>
             <a-link type="primary" @click="() => edit(item.id as string)">
               编辑

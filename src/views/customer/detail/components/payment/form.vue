@@ -53,10 +53,11 @@
 
 <script lang="ts" setup>
   import { ref, toRef } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
 
   import useLoading from '@/hooks/loading';
+  import { useCustomerStore } from '@/store/';
 
   import {
     CustomerPayment,
@@ -66,8 +67,10 @@
   import PaymentMethod from '@/types/PaymentType';
 
   const { setLoading } = useLoading();
-  const route = useRoute();
-  const customerId = ref<string>(route.params.id as string);
+
+  const customerStore = useCustomerStore();
+
+  const { customerId } = storeToRefs(customerStore);
 
   const fromOptions = Object.entries(PaymentMethod).map(([key, value]) => ({
     label: value,
