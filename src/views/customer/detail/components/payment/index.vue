@@ -2,7 +2,7 @@
   <a-card>
     <template #title>支付信息</template>
     <template #extra>
-      <a-button v-if="!addingPayment" type="primary" @click="add">
+      <a-button v-if="customerId && !addingPayment" type="primary" @click="add">
         添加
       </a-button>
     </template>
@@ -46,10 +46,11 @@
 
 <script lang="ts" setup>
   import { h, ref, RenderFunction } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { storeToRefs } from 'pinia';
   import dayjs from 'dayjs';
 
   import useLoading from '@/hooks/loading';
+  import { useCustomerStore } from '@/store/';
   import {
     CustomerPayment,
     queryCustomerPaymentList,
@@ -58,8 +59,9 @@
   import { DescData } from '@arco-design/web-vue';
   import CustomerDetailPaymentForm from './form.vue';
 
-  const route = useRoute();
-  const customerId = ref<string>(route.params.id as string);
+  const customerStore = useCustomerStore();
+
+  const { customerId } = storeToRefs(customerStore);
   const editingId = ref<string>();
 
   const fieldsMap: {

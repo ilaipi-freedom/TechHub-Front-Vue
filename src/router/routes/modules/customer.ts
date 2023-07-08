@@ -1,3 +1,5 @@
+import { useCustomerStore } from '@/store';
+
 import { DEFAULT_LAYOUT } from '../base';
 import { AppRouteRecordRaw } from '../types';
 
@@ -32,6 +34,10 @@ const DASHBOARD: AppRouteRecordRaw = {
         hideInMenu: true,
       },
       component: () => import('@/views/customer/detail/index.vue'),
+      beforeEnter: () => {
+        const store = useCustomerStore();
+        store.$reset();
+      },
       children: [
         {
           path: ':id',

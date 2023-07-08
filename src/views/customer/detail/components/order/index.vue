@@ -2,7 +2,9 @@
   <a-card>
     <template #title>订单信息</template>
     <template #extra>
-      <a-button v-if="!addingOrder" type="primary" @click="add">添加</a-button>
+      <a-button v-if="customerId && !addingOrder" type="primary" @click="add">
+        添加
+      </a-button>
     </template>
     <a-grid :row-gap="15">
       <a-grid-item v-if="!!addingOrder" class="list-col" :span="24">
@@ -41,18 +43,21 @@
 
 <script lang="ts" setup>
   import { h, ref, RenderFunction } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { storeToRefs } from 'pinia';
   import dayjs from 'dayjs';
   import { DescData } from '@arco-design/web-vue';
 
   import useLoading from '@/hooks/loading';
+  import { useCustomerStore } from '@/store/';
   import { CustomerOrder, queryCustomerOrderList } from '@/api/customer/order';
   import { getOrderStatusName } from '@/types/OrderType';
 
   import CustomerDetailOrderForm from './form.vue';
 
-  const route = useRoute();
-  const customerId = ref<string>(route.params.id as string);
+  const customerStore = useCustomerStore();
+
+  const { customerId } = storeToRefs(customerStore);
+
   const editingId = ref<string>();
 
   const { setLoading } = useLoading();

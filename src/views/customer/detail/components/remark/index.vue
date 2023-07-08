@@ -2,7 +2,9 @@
   <a-card>
     <template #title>备注信息</template>
     <template #extra>
-      <a-button v-if="!addingRemark" type="primary" @click="add">添加</a-button>
+      <a-button v-if="customerId && !addingRemark" type="primary" @click="add">
+        添加
+      </a-button>
     </template>
     <a-row class="list-row" :gutter="24">
       <a-col v-if="!!addingRemark" class="list-col" :span="12">
@@ -35,22 +37,24 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { storeToRefs } from 'pinia';
 
   import useLoading from '@/hooks/loading';
+  import { useCustomerStore } from '@/store/';
   import {
     queryCustomerRemarkList,
     CustomerRemark,
   } from '@/api/customer/remark';
   import CustomerDetailEditRemark from './form.vue';
 
+  const customerStore = useCustomerStore();
+
+  const { customerId } = storeToRefs(customerStore);
+
   const { setLoading } = useLoading();
 
   const remarks = ref<Partial<CustomerRemark>[]>([]);
   const addingRemark = ref<Partial<CustomerRemark>>();
-
-  const route = useRoute();
-  const customerId = ref<string>(route.params.id as string);
   const editingId = ref<string>();
   const initRemarks = async () => {
     if (!customerId.value) {

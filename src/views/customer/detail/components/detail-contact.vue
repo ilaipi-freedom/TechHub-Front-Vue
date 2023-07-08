@@ -72,7 +72,10 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
+  import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
+
+  import { useCustomerStore } from '@/store/';
   import useLoading from '@/hooks/loading';
   import {
     Customer,
@@ -80,10 +83,9 @@
     updateCustomer,
     createCustomer,
   } from '@/api/customer/list';
-  import { useRoute } from 'vue-router';
 
-  const route = useRoute();
-  const customerId = ref<string>(route.params.id as string);
+  const customerStore = useCustomerStore();
+  const { customerId } = storeToRefs(customerStore);
 
   const formData = ref<Partial<Customer>>({});
   const formRef = ref<FormInstance>();
@@ -112,7 +114,7 @@
         await updateCustomer({ ...payload, id: customerId.value });
       } else {
         const created = await createCustomer({ ...payload });
-        customerId.value = created.data.id;
+        customerStore.updateCustomerId(created.data.id);
       }
       setLoading(false);
     }

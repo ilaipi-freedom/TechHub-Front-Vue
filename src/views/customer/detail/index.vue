@@ -18,11 +18,26 @@
 </template>
 
 <script lang="ts" setup>
+  import { useRoute } from 'vue-router';
+
+  import { useCustomerStore } from '@/store/';
+
   import CustomerDetailContact from './components/detail-contact.vue';
   import CustomerDetailRemark from './components/remark/index.vue';
   import CustomerDetailOrder from './components/order/index.vue';
   import CustomerDetailPayment from './components/payment/index.vue';
   import CustomerDetailProject from './components/project/index.vue';
+
+  const route = useRoute();
+
+  const customerStore = useCustomerStore();
+  const update = (id: string) => {
+    if (!id) {
+      return;
+    }
+    customerStore.updateCustomerId(id);
+  };
+  update(route.params.id as string);
 </script>
 
 <script lang="ts">
