@@ -84,9 +84,17 @@
 </template>
 
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { ref } from 'vue';
 
-  const formModel = reactive({});
+  import { CustomerListSearch } from '@/api/customer/list';
+
+  const formModel = ref<CustomerListSearch>({});
+  const search = () => {
+    console.log('====search====');
+  };
+  const reset = () => {
+    formModel.value = {};
+  };
 </script>
 
 <script lang="ts">

@@ -14,6 +14,14 @@ export interface Customer {
   firstMessageTime: string;
 }
 
+export interface CustomerListSearch {
+  q?: string;
+  status?: string;
+  firstMessageTime?: string[];
+  orderTime?: string[];
+  deliveryTime?: string[];
+}
+
 export interface CustomerParams extends Partial<Customer> {
   current: number;
   pageSize: number;
