@@ -85,15 +85,42 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue';
+  import { storeToRefs } from 'pinia';
 
-  import { CustomerListSearch } from '@/api/customer/list';
+  import { CustomerParams } from '@/api/customer/list';
+  import { useCustomerSearchStore } from '@/store/';
 
-  const formModel = ref<CustomerListSearch>({});
-  const search = () => {
-    console.log('====search====');
+  const props = defineProps<{
+    fetchData: (params: CustomerParams) => void;
+  }>();
+
+  const customerSearchStore = useCustomerSearchStore();
+  const searchStore = storeToRefs(customerSearchStore);
+
+  const formModel = ref<Partial<CustomerParams>>(
+    searchStore as Partial<CustomerParams>
+  );
+  const search = async () => {
+    const { q, firstMessageTime } = formModel.value;
+    const searchParams: Partial<CustomerParams> = {};
+    if (q) {
+      searchParams.q = q;
+    }
+    if (firstMessageTime) {
+      searchParams.firstMessageTime = firstMessageTime;
+    }
+    console.log('===========searchParams 1', searchParams);
+    customerSearchStore.updateSearch(searchParams);
+    const query = {
+      ...customerSearchStore.$state,
+      ...searchParams,
+    } as CustomerParams;
+    console.log('===========query', query);
+    console.log('===========searchParams', searchParams);
+    props.fetchData(query);
   };
   const reset = () => {
-    formModel.value = {};
+    customerSearchStore.$reset();
   };
 </script>
 

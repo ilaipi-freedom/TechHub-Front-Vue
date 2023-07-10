@@ -33,27 +33,28 @@
 </template>
 
 <script lang="ts" setup>
-  import { computed, ref, reactive, watch } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { useI18n } from 'vue-i18n';
   import { useRouter } from 'vue-router';
-  import useLoading from '@/hooks/loading';
-  import {
-    queryCustomerList,
-    CustomerParams,
-    Customer,
-  } from '@/api/customer/list';
+  import { CustomerParams, Customer } from '@/api/customer/list';
   import { Pagination } from '@/types/global';
   import type { TableColumnData } from '@arco-design/web-vue/es/table/interface';
   import cloneDeep from 'lodash/cloneDeep';
   import dayjs from 'dayjs';
 
+  defineProps<{
+    fetchData: (params: CustomerParams) => void;
+    onPageChange: (current: number) => void;
+    pagination: Pagination;
+    loading: boolean;
+    renderData: Customer[];
+  }>();
+
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
   const router = useRouter();
 
-  const { loading, setLoading } = useLoading(true);
   const { t } = useI18n();
-  const renderData = ref<Customer[]>([]);
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
 
@@ -84,13 +85,6 @@
     router.push(`detail/${record.id}`);
   };
 
-  const basePagination: Pagination = {
-    current: 1,
-    pageSize: 20,
-  };
-  const pagination = reactive({
-    ...basePagination,
-  });
   const columns = computed<TableColumnData[]>(() => [
     {
       title: t('customer.list.columns.index'),
@@ -131,26 +125,6 @@
       slotName: 'operations',
     },
   ]);
-  const fetchData = async (
-    params: CustomerParams = { current: 1, pageSize: 20 }
-  ) => {
-    setLoading(true);
-    try {
-      const { data } = await queryCustomerList(params);
-      renderData.value = data.list;
-      pagination.current = params.current;
-      pagination.total = data.total;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
-  const onPageChange = (current: number) => {
-    fetchData({ ...basePagination, current });
-  };
-
-  fetchData();
 
   watch(
     () => columns.value,

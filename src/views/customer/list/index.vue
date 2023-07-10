@@ -1,17 +1,63 @@
 <template>
   <div class="container">
     <Breadcrumb :items="['menu.customer', 'menu.customer.list']" />
-    <CustomerListSearch />
+    <CustomerListSearch :fetch-data="fetchData" />
     <CustomerListAction />
     <a-divider style="margin-top: 0" />
-    <CustomerListTable />
+    <CustomerListTable
+      :loading="loading"
+      :fetch-data="fetchData"
+      :on-page-change="onPageChange"
+      :pagination="pagination"
+      :render-data="renderData"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
+  import { ref, reactive } from 'vue';
+
+  import {
+    queryCustomerList,
+    CustomerParams,
+    Customer,
+  } from '@/api/customer/list';
+  import { Pagination } from '@/types/global';
+  import useLoading from '@/hooks/loading';
+
   import CustomerListSearch from './components/customer-search.vue';
   import CustomerListAction from './components/customer-action.vue';
   import CustomerListTable from './components/customer-list.vue';
+
+  const { loading, setLoading } = useLoading(true);
+  const renderData = ref<Customer[]>([]);
+  const basePagination: Pagination = {
+    current: 1,
+    pageSize: 20,
+  };
+  const pagination = reactive({
+    ...basePagination,
+  });
+  const fetchData = async (
+    params: CustomerParams = { current: 1, pageSize: 20 }
+  ) => {
+    setLoading(true);
+    try {
+      const { data } = await queryCustomerList(params);
+      renderData.value = data.list;
+      pagination.current = params.current;
+      pagination.total = data.total;
+    } catch (err) {
+      // you can report use errorHandler or other
+    } finally {
+      setLoading(false);
+    }
+  };
+  const onPageChange = (current: number) => {
+    fetchData({ ...basePagination, current });
+  };
+
+  fetchData();
 </script>
 
 <script lang="ts">

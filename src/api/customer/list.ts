@@ -22,7 +22,7 @@ export interface CustomerListSearch {
   deliveryTime?: string[];
 }
 
-export interface CustomerParams extends Partial<Customer> {
+export interface CustomerParams extends Partial<CustomerListSearch> {
   current: number;
   pageSize: number;
 }
