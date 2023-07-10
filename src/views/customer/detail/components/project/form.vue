@@ -13,6 +13,7 @@
         <a-form-item label="开始时间" field="begin">
           <a-date-picker
             v-model="formData.begin"
+            :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             placeholder="Please select ..."
             class="w-full"
           />
@@ -22,6 +23,7 @@
         <a-form-item label="结束时间" field="end">
           <a-date-picker
             v-model="formData.end"
+            :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             placeholder="Please select ..."
             class="w-full"
           />
@@ -66,6 +68,7 @@
   import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import Message from '@arco-design/web-vue/es/message';
+  import dayjs from 'dayjs';
 
   import useLoading from '@/hooks/loading';
   import { useCustomerStore } from '@/store/';

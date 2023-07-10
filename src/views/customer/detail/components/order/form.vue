@@ -41,6 +41,7 @@
         <a-form-item label="首聊时间" field="firstMessageTime">
           <a-date-picker
             v-model="formData.firstMessageTime"
+            :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             show-time
             placeholder="Please select ..."
             class="w-full"
@@ -55,6 +56,7 @@
         >
           <a-date-picker
             v-model="formData.orderTime"
+            :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             show-time
             placeholder="Please select ..."
             class="w-full"
@@ -69,7 +71,10 @@
         >
           <a-date-picker
             v-model="formData.deliveryTime"
+            :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             show-time
+            :format="'YYYY-MM-DD HH:mm'"
+            :time-picker-props="{ format: 'HH:mm' }"
             placeholder="Please select ..."
             class="w-full"
           />
@@ -150,6 +155,7 @@
   import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import Message from '@arco-design/web-vue/es/message';
+  import dayjs from 'dayjs';
 
   import useLoading from '@/hooks/loading';
   import { useCustomerStore } from '@/store/';

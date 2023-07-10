@@ -22,9 +22,12 @@
         <a-form-item label="支付时间" field="payTime">
           <a-date-picker
             v-model="formData.payTime"
+            :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             show-time
             placeholder="Please select ..."
             class="w-full"
+            :format="'YYYY-MM-DD HH:mm'"
+            :time-picker-props="{ format: 'HH:mm' }"
           />
         </a-form-item>
       </a-col>
@@ -56,6 +59,7 @@
   import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import Message from '@arco-design/web-vue/es/message';
+  import dayjs from 'dayjs';
 
   import useLoading from '@/hooks/loading';
   import { useCustomerStore } from '@/store/';
