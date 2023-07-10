@@ -65,6 +65,7 @@
   import { ref, toRef } from 'vue';
   import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
+  import Message from '@arco-design/web-vue/es/message';
 
   import useLoading from '@/hooks/loading';
   import { useCustomerStore } from '@/store/';
@@ -97,11 +98,13 @@
       setLoading(true);
       if (props.project?.id) {
         await updateCustomerProject({ ...payload });
+        Message.success('更新成功');
       } else {
         await createCustomerProject({
           ...payload,
           customer: customerId.value,
         });
+        Message.success('创建成功');
       }
       await props.refresh();
       props.cancel();

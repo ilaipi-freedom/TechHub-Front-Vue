@@ -74,6 +74,7 @@
   import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import { FormInstance } from '@arco-design/web-vue/es/form';
+  import Message from '@arco-design/web-vue/es/message';
 
   import { useCustomerStore } from '@/store/';
   import useLoading from '@/hooks/loading';
@@ -112,9 +113,11 @@
       setLoading(true);
       if (customerId.value) {
         await updateCustomer({ ...payload, id: customerId.value });
+        Message.success('更新成功');
       } else {
         const created = await createCustomer({ ...payload });
         customerStore.updateCustomerId(created.data.id);
+        Message.success('创建成功');
       }
       setLoading(false);
     }
