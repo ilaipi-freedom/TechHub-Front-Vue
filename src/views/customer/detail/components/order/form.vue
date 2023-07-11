@@ -43,6 +43,7 @@
             v-model="formData.firstMessageTime"
             :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             show-time
+            :format="'YYYY-MM-DD HH:mm'"
             placeholder="Please select ..."
             class="w-full"
           />
@@ -58,6 +59,7 @@
             v-model="formData.orderTime"
             :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             show-time
+            :format="'YYYY-MM-DD HH:mm'"
             placeholder="Please select ..."
             class="w-full"
           />
