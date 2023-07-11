@@ -2,12 +2,14 @@ import axios from 'axios';
 import type { TableData } from '@arco-design/web-vue/es/table/interface';
 
 export interface ContentDataRecord {
-  x: string;
-  y: number;
+  month: string;
+  totalAmount: number;
 }
 
 export function queryContentData() {
-  return axios.get<ContentDataRecord[]>('/api/content-data');
+  return axios.get<ContentDataRecord[]>(
+    '/fdapi/customer-payment/sumAmountByMonth'
+  );
 }
 
 export interface PopularRecord {

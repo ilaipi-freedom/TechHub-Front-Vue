@@ -6,7 +6,7 @@
       :body-style="{
         paddingTop: '20px',
       }"
-      :title="$t('workplace.contentData')"
+      :title="'每月收入统计'"
     >
       <template #extra>
         <a-link>{{ $t('workplace.viewMore') }}</a-link>
@@ -99,7 +99,7 @@
         axisLabel: {
           formatter(value: any, idx: number) {
             if (idx === 0) return value;
-            return `${value}k`;
+            return value;
           },
         },
         splitLine: {
@@ -116,9 +116,7 @@
           const [firstElement] = params as ToolTipFormatterParams[];
           return `<div>
             <p class="tooltip-title">${firstElement.axisValueLabel}</p>
-            <div class="content-panel"><span>总内容量</span><span class="tooltip-value">${(
-              Number(firstElement.value) * 10000
-            ).toLocaleString()}</span></div>
+            <div class="content-panel"><span>总收入</span><span class="tooltip-value">${firstElement.value.toLocaleString()}</span></div>
           </div>`;
         },
         className: 'echarts-tooltip-diy',
@@ -179,13 +177,13 @@
     try {
       const { data: chartData } = await queryContentData();
       chartData.forEach((el: ContentDataRecord, idx: number) => {
-        xAxis.value.push(el.x);
-        chartsData.value.push(el.y);
+        xAxis.value.push(el.month);
+        chartsData.value.push(el.totalAmount);
         if (idx === 0) {
-          graphicElements.value[0].style.text = el.x;
+          graphicElements.value[0].style.text = el.month;
         }
         if (idx === chartData.length - 1) {
-          graphicElements.value[1].style.text = el.x;
+          graphicElements.value[1].style.text = el.month;
         }
       });
     } catch (err) {
