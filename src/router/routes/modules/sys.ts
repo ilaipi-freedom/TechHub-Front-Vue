@@ -8,7 +8,7 @@ const DASHBOARD: AppRouteRecordRaw = {
   meta: {
     locale: 'menu.sys',
     requiresAuth: true,
-    icon: 'icon-dashboard',
+    icon: 'icon-settings',
     order: 0,
   },
   children: [
@@ -19,6 +19,7 @@ const DASHBOARD: AppRouteRecordRaw = {
         locale: 'menu.sys.perm',
         requiresAuth: true,
         roles: ['*'],
+        icon: 'icon-safe',
       },
       component: () => import('@/views/sys-manage/perm-manage/user/index.vue'),
       children: [
@@ -29,6 +30,7 @@ const DASHBOARD: AppRouteRecordRaw = {
             locale: 'menu.sys.perm.user',
             requiresAuth: true,
             roles: ['*'],
+            icon: 'icon-idcard',
           },
           component: () =>
             import('@/views/sys-manage/perm-manage/user/index.vue'),
