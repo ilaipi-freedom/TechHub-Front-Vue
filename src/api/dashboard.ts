@@ -26,3 +26,7 @@ export function queryPopularList(params: { type: string }) {
 export function groupByPeriod() {
   return axios.get('/fdapi/customer/statistics/groupByPeriod');
 }
+
+export function statisticsNums() {
+  return axios.get('/fdapi/customer/statistics/nums');
+}

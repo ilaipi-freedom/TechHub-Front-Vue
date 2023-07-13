@@ -13,7 +13,7 @@
         </a-avatar>
         <a-statistic
           :title="'累计客户数量'"
-          :value="37"
+          :value="nums.totalCustomers"
           :value-from="0"
           animation
           show-group-separator
@@ -37,7 +37,7 @@
         </a-avatar>
         <a-statistic
           :title="'已支付客户数量'"
-          :value="26"
+          :value="nums.paidCustomers"
           :value-from="0"
           animation
           show-group-separator
@@ -61,7 +61,7 @@
         </a-avatar>
         <a-statistic
           :title="'累计已赚'"
-          :value="8874"
+          :value="nums.totalPaid"
           :value-from="0"
           animation
           show-group-separator
@@ -85,8 +85,8 @@
           />
         </a-avatar>
         <a-statistic
-          :title="'已支付订单数量'"
-          :value="2.8"
+          :title="'已交付订单数量'"
+          :value="nums.deliveryOrders"
           :value-from="0"
           animation
         >
@@ -102,7 +102,26 @@
   </a-grid>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  import { ref } from 'vue';
+
+  import { statisticsNums } from '@/api/dashboard';
+
+  const nums = ref<
+    Partial<{
+      deliveryOrders: number;
+      paidCustomers: number;
+      totalCustomers: number;
+      totalPaid: number;
+    }>
+  >({});
+
+  const fetchStatisticsNums = async () => {
+    const { data } = await statisticsNums();
+    nums.value = data;
+  };
+  fetchStatisticsNums();
+</script>
 
 <style lang="less" scoped>
   .arco-grid.panel {
