@@ -7,31 +7,50 @@
         padding: '20px',
       }"
     >
-      <template #title>
-        {{ $t('workplace.categoriesPercent') }}
-      </template>
+      <template #title>首聊时间段分布</template>
       <Chart height="310px" :option="chartOption" />
     </a-card>
   </a-spin>
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue';
+  import { EChartsOption } from 'echarts';
+
   import useLoading from '@/hooks/loading';
-  import useChartOption from '@/hooks/chart-option';
+  import { groupByPeriod } from '@/api/dashboard';
+  import { keyBy, sumBy } from 'lodash';
 
   const { loading } = useLoading();
-  const { chartOption } = useChartOption((isDark) => {
-    // echarts support https://echarts.apache.org/zh/theme-builder.html
-    // It's not used here
-    return {
+  const chartOption = ref<EChartsOption>({});
+  const fetchData = async () => {
+    const {
+      data: { data, timePeriod },
+    } = await groupByPeriod();
+    const dataMap = keyBy(data as Array<any>, 'timePeriod');
+    const totalCustomerNum = sumBy(data, (row: any) => Number(row.count));
+    const colors = [
+      '#3D72F6',
+      '#249EFF',
+      '#A079DC',
+      '#313CA9',
+      '#6CAAF5',
+      '#21CCFF',
+    ];
+    const series0Data = timePeriod.map((period: string, idx: number) => ({
+      name: period,
+      value: [dataMap[period.split(':')[0]].count],
+      itemStyle: { color: colors[idx] },
+    }));
+    chartOption.value = {
       legend: {
         left: 'center',
-        data: ['纯文本', '图文类', '视频类'],
+        data: timePeriod,
         bottom: 0,
         icon: 'circle',
         itemWidth: 8,
         textStyle: {
-          color: isDark ? 'rgba(255, 255, 255, 0.7)' : '#4E5969',
+          color: '#4E5969',
         },
         itemStyle: {
           borderWidth: 0,
@@ -48,9 +67,9 @@
             left: 'center',
             top: '40%',
             style: {
-              text: '内容量',
+              text: '客户总数',
               textAlign: 'center',
-              fill: isDark ? '#ffffffb3' : '#4E5969',
+              fill: '#4E5969',
               fontSize: 14,
             },
           },
@@ -59,9 +78,9 @@
             left: 'center',
             top: '50%',
             style: {
-              text: '928,531',
+              text: totalCustomerNum,
               textAlign: 'center',
-              fill: isDark ? '#ffffffb3' : '#1D2129',
+              fill: '#1D2129',
               fontSize: 16,
               fontWeight: 500,
             },
@@ -76,39 +95,18 @@
           label: {
             formatter: '{d}%',
             fontSize: 14,
-            color: isDark ? 'rgba(255, 255, 255, 0.7)' : '#4E5969',
+            color: '#4E5969',
           },
           itemStyle: {
-            borderColor: isDark ? '#232324' : '#fff',
+            borderColor: '#fff',
             borderWidth: 1,
           },
-          data: [
-            {
-              value: [148564],
-              name: '纯文本',
-              itemStyle: {
-                color: isDark ? '#3D72F6' : '#249EFF',
-              },
-            },
-            {
-              value: [334271],
-              name: '图文类',
-              itemStyle: {
-                color: isDark ? '#A079DC' : '#313CA9',
-              },
-            },
-            {
-              value: [445694],
-              name: '视频类',
-              itemStyle: {
-                color: isDark ? '#6CAAF5' : '#21CCFF',
-              },
-            },
-          ],
+          data: series0Data,
         },
       ],
-    };
-  });
+    } as EChartsOption;
+  };
+  fetchData();
 </script>
 
 <style scoped lang="less"></style>

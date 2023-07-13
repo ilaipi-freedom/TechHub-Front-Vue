@@ -22,3 +22,7 @@ export interface PopularRecord {
 export function queryPopularList(params: { type: string }) {
   return axios.get<TableData[]>('/api/popular/list', { params });
 }
+
+export function groupByPeriod() {
+  return axios.get('/fdapi/customer/statistics/groupByPeriod');
+}
