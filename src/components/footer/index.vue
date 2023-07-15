@@ -1,5 +1,5 @@
 <template>
-  <a-layout-footer class="footer">Powered By ilaipi</a-layout-footer>
+  <a-layout-footer class="footer">Powered By @ilaipi</a-layout-footer>
 </template>
 
 <script lang="ts" setup></script>
@@ -12,5 +12,6 @@
     height: 40px;
     color: var(--color-text-2);
     text-align: center;
+    font-size: 16px;
   }
 </style>
