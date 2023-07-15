@@ -13,6 +13,8 @@
               <a-input
                 v-model="formModel.q"
                 :placeholder="$t('customer.list.q.placeholder')"
+                allow-clear
+                @press-enter="search"
               />
             </a-form-item>
           </a-col>
@@ -35,6 +37,7 @@
               <a-range-picker
                 v-model="formModel.firstMessageTime"
                 style="width: 100%"
+                @change="search"
               />
             </a-form-item>
           </a-col>
@@ -109,18 +112,17 @@
     if (firstMessageTime) {
       searchParams.firstMessageTime = firstMessageTime;
     }
-    console.log('===========searchParams 1', searchParams);
-    customerSearchStore.updateSearch(searchParams);
+    customerSearchStore.$reset();
+    customerSearchStore.$patch(searchParams);
     const query = {
       ...customerSearchStore.$state,
       ...searchParams,
     } as CustomerParams;
-    console.log('===========query', query);
-    console.log('===========searchParams', searchParams);
     props.fetchData(query);
   };
   const reset = () => {
     customerSearchStore.$reset();
+    search();
   };
 </script>
 

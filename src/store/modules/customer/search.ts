@@ -4,6 +4,8 @@ import { CustomerSearchState } from './types';
 
 const useCustomerSearchStore = defineStore('customerSearch', {
   state: (): Partial<CustomerSearchState> => ({
+    q: '',
+    firstMessageTime: [],
     current: 1,
     pageSize: 20,
   }),
