@@ -22,7 +22,11 @@
       {{ renderAccount(record, 'qq', 'Num') }}
     </template>
     <template #firstMessageTime="{ record }">
-      {{ dayjs(record.firstMessageTime).format('YYYY-MM-DD HH:mm') }}
+      {{
+        `${dayjs(record.firstMessageTime).format(
+          'YYYY-MM-DD HH:mm'
+        )} (${fmtWeekDay(record.firstMessageTime)})`
+      }}
     </template>
     <template #operations>
       <a-button v-permission="['admin']" type="text" size="small">
@@ -49,6 +53,18 @@
     loading: boolean;
     renderData: Customer[];
   }>();
+
+  const weekDays: Record<number, string> = {
+    0: '一',
+    1: '二',
+    2: '三',
+    3: '四',
+    4: '五',
+    5: '六',
+    6: '日',
+  };
+  const fmtWeekDay = (firstMessageTime: Date) =>
+    `周${weekDays[dayjs(firstMessageTime).get('day')]}`;
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
@@ -113,6 +129,9 @@
       title: t('customer.list.columns.qq'),
       dataIndex: 'qq',
       slotName: 'qq',
+      width: 100,
+      ellipsis: true,
+      tooltip: true,
     },
     {
       title: t('customer.list.columns.firstMessageTime'),
