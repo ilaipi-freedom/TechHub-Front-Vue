@@ -30,3 +30,7 @@ export function groupByPeriod() {
 export function statisticsNums() {
   return axios.get('/fdapi/customer/statistics/nums');
 }
+
+export function statisticsMostPaid(type: string) {
+  return axios.get(`/fdapi/customer/statistics/${type}`);
+}

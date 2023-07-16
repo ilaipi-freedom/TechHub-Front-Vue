@@ -6,6 +6,7 @@
         <DataPanel />
         <ContentChart />
       </div>
+      <DataChainGrowth />
       <a-grid :cols="24" :col-gap="16" :row-gap="16" style="margin-top: 16px">
         <a-grid-item
           :span="{ xs: 24, sm: 24, md: 24, lg: 12, xl: 12, xxl: 12 }"
@@ -26,6 +27,7 @@
   import DataPanel from './components/data-panel.vue';
   import ContentChart from './components/content-chart.vue';
   import CategoriesPercent from './components/categories-percent.vue';
+  import DataChainGrowth from './components/most/data-chain-growth.vue';
 </script>
 
 <script lang="ts">
