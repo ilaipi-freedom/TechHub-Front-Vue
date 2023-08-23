@@ -90,7 +90,7 @@
             v-model="formData.industry"
             placeholder="please enter your industry..."
             :style="{ minHeight: '50px' }"
-            auto-size
+            :auto-size="{ minRows: 3, maxRows: 6 }"
           />
         </a-form-item>
       </a-col>
@@ -100,7 +100,7 @@
             v-model="formData.industryDetail"
             placeholder="please enter your industryDetail..."
             :style="{ minHeight: '50px' }"
-            auto-size
+            :auto-size="{ minRows: 3, maxRows: 6 }"
           />
         </a-form-item>
       </a-col>
@@ -112,7 +112,7 @@
             v-model="formData.content"
             placeholder="please enter your content..."
             :style="{ minHeight: '50px' }"
-            auto-size
+            :auto-size="{ minRows: 3, maxRows: 6 }"
           />
         </a-form-item>
       </a-col>
@@ -122,7 +122,7 @@
             v-model="formData.repo"
             placeholder="please enter your repo..."
             :style="{ minHeight: '50px' }"
-            auto-size
+            :auto-size="{ minRows: 3, maxRows: 6 }"
           />
         </a-form-item>
       </a-col>
@@ -132,7 +132,7 @@
         v-model="formData.detail"
         placeholder="please enter your detail..."
         :style="{ minHeight: '100px' }"
-        auto-size
+        :auto-size="{ minRows: 3, maxRows: 6 }"
       />
     </a-form-item>
     <a-form-item label="备注" field="extra" validate-trigger="input">
@@ -140,7 +140,7 @@
         v-model="formData.extra"
         placeholder="please enter your extra..."
         :style="{ minHeight: '100px' }"
-        auto-size
+        :auto-size="{ minRows: 3, maxRows: 6 }"
       />
     </a-form-item>
     <a-form-item>

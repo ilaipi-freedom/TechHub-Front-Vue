@@ -35,7 +35,7 @@
         v-model="formData.description"
         placeholder="please enter your description..."
         :style="{ minHeight: '100px' }"
-        auto-size
+        :auto-size="{ minRows: 3, maxRows: 6 }"
       />
     </a-form-item>
     <a-form-item label="项目内容" field="content" validate-trigger="input">
@@ -43,7 +43,7 @@
         v-model="formData.content"
         placeholder="please enter your extra..."
         :style="{ minHeight: '100px' }"
-        auto-size
+        :auto-size="{ minRows: 3, maxRows: 6 }"
       />
     </a-form-item>
     <a-form-item label="备注" field="extra" validate-trigger="input">
@@ -51,7 +51,7 @@
         v-model="formData.extra"
         placeholder="please enter your extra..."
         :style="{ minHeight: '100px' }"
-        auto-size
+        :auto-size="{ minRows: 3, maxRows: 6 }"
       />
     </a-form-item>
     <a-form-item>

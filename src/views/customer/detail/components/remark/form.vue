@@ -11,7 +11,7 @@
         v-model="formData.content"
         placeholder="please enter your content..."
         :style="{ minHeight: '100px' }"
-        auto-size
+        :auto-size="{ minRows: 3, maxRows: 6 }"
       />
     </a-form-item>
     <a-form-item>
