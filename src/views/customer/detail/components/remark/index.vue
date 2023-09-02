@@ -6,6 +6,7 @@
         添加
       </a-button>
     </template>
+    <a-space />
     <a-row class="list-row" :gutter="24">
       <a-col v-if="!!addingRemark" class="list-col" :span="12">
         <CustomerDetailEditRemark
@@ -20,9 +21,7 @@
               编辑
             </a-link>
           </template>
-          <div class="multiline-text-container">
-            <pre class="multiline-text">{{ item.content }}</pre>
-          </div>
+          <MDEditor :value="item.content" read />
         </a-card>
         <CustomerDetailEditRemark
           v-if="item.id === editingId"
@@ -46,6 +45,7 @@
     CustomerRemark,
   } from '@/api/customer/remark';
   import CustomerDetailEditRemark from './form.vue';
+  import MDEditor from '../md-editor.vue';
 
   const customerStore = useCustomerStore();
 

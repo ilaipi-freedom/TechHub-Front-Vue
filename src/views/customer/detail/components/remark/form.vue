@@ -7,12 +7,7 @@
       />
     </a-form-item>
     <a-form-item label="内容" field="content" validate-trigger="input">
-      <a-textarea
-        v-model="formData.content"
-        placeholder="please enter your content..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
-      />
+      <MDEditor :value="formData.content" :read="false" :save="saveEdit" />
     </a-form-item>
     <a-form-item>
       <a-space>
@@ -37,6 +32,8 @@
     updateCustomerRemark,
   } from '@/api/customer/remark';
 
+  import MDEditor from '../md-editor.vue';
+
   const { setLoading } = useLoading();
 
   const customerStore = useCustomerStore();
@@ -50,6 +47,10 @@
   }>();
   const formData = ref<Partial<CustomerRemark>>(props.remark || {});
   const formRef = ref<FormInstance>();
+
+  const saveEdit = (value: string) => {
+    formData.value.content = value;
+  };
 
   const saveRemark = async () => {
     const res = await formRef.value?.validate();

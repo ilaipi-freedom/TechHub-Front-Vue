@@ -26,12 +26,39 @@
               编辑
             </a-link>
           </template>
-          <a-descriptions
-            :data="transformProject(item as CustomerProject)"
-            layout="inline-vertical"
-            bordered
-            :column="2"
-          />
+          <a-descriptions layout="inline-vertical" bordered :column="2">
+            <a-descriptions-item key="id" label="项目id">
+              <p>{{ item.id }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item key="title" label="项目名称">
+              <p>{{ item.title }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item key="begin" label="开始时间">
+              <p>
+                {{
+                  item.begin
+                    ? dayjs(item.begin).format('YYYY-MM-DD HH:mm')
+                    : '-'
+                }}
+              </p>
+            </a-descriptions-item>
+            <a-descriptions-item key="end" label="结束时间">
+              <p>
+                {{
+                  item.end ? dayjs(item.end).format('YYYY-MM-DD HH:mm') : '-'
+                }}
+              </p>
+            </a-descriptions-item>
+            <a-descriptions-item key="description" label="项目描述">
+              <MDEditor :value="item.description" read />
+            </a-descriptions-item>
+            <a-descriptions-item key="content" label="项目内容">
+              <MDEditor :value="item.content" read />
+            </a-descriptions-item>
+            <a-descriptions-item key="extra" label="项目备注">
+              <MDEditor :value="item.extra" read />
+            </a-descriptions-item>
+          </a-descriptions>
         </a-card>
         <CustomerDetailProjectForm
           v-if="editingId === item.id"
@@ -45,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { h, ref, RenderFunction } from 'vue';
+  import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import dayjs from 'dayjs';
 
@@ -56,79 +83,13 @@
     queryCustomerProjectList,
   } from '@/api/customer/project';
 
-  import { DescData } from '@arco-design/web-vue';
   import CustomerDetailProjectForm from './form.vue';
+  import MDEditor from '../md-editor.vue';
 
   const customerStore = useCustomerStore();
 
   const { customerId } = storeToRefs(customerStore);
   const editingId = ref<string>();
-
-  const fieldsMap: {
-    key: string;
-    label: string;
-    format?: (v: string) => string | RenderFunction;
-  }[] = [
-    {
-      key: 'id',
-      label: '项目id',
-      format:
-        (v: string): RenderFunction =>
-        () =>
-          renderId(v),
-    },
-    {
-      key: 'title',
-      label: '项目名称',
-    },
-    {
-      key: 'begin',
-      label: '开始时间',
-      format: (v: string): string =>
-        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
-    },
-    {
-      key: 'begin',
-      label: '结束时间',
-      format: (v: string): string =>
-        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
-    },
-    {
-      key: 'description',
-      label: '项目描述',
-      format: (v: string) => () => renderProjectText(v),
-    },
-    {
-      key: 'content',
-      label: '项目内容',
-      format: (v: string) => () => renderProjectText(v),
-    },
-    {
-      key: 'extra',
-      label: '项目备注',
-      format: (v: string) => () => renderProjectText(v),
-    },
-  ];
-  const transformProject = (project: CustomerProject): DescData[] => {
-    const descData: DescData[] = [];
-
-    const transformedFields = fieldsMap.map(({ key, label, format }) => ({
-      label,
-      value: format
-        ? format(project[key as keyof CustomerProject] as string)
-        : project[key as keyof CustomerProject],
-    }));
-
-    return [...descData, ...transformedFields] as DescData[];
-  };
-
-  const renderProjectText = (itemContent: string) =>
-    itemContent
-      ? h('div', { class: 'multiline-text-container' }, [
-          h('pre', { class: 'multiline-text' }, itemContent),
-        ])
-      : '-';
-  const renderId = (id: string) => h('p', {}, id);
 
   const { setLoading } = useLoading();
   const projects = ref<Partial<CustomerProject>[]>([]);

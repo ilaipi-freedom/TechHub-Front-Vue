@@ -38,11 +38,10 @@
       </a-col>
     </a-row>
     <a-form-item label="备注" field="extra" validate-trigger="input">
-      <a-textarea
-        v-model="formData.extra"
-        placeholder="please enter your extra..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
+      <MDEditor
+        :value="formData.extra"
+        :read="false"
+        :save="saveEdit('extra')"
       />
     </a-form-item>
     <a-form-item>
@@ -71,6 +70,8 @@
   } from '@/api/customer/payment';
   import PaymentMethod from '@/types/PaymentType';
 
+  import MDEditor from '../md-editor.vue';
+
   const { setLoading } = useLoading();
 
   const customerStore = useCustomerStore();
@@ -90,6 +91,11 @@
 
   const formData = toRef(props.payment || ({} as CustomerPayment));
   const formRef = ref<FormInstance>();
+
+  const saveEdit =
+    (field: Exclude<keyof CustomerPayment, 'payMethod'>) => (value: string) => {
+      formData.value[field] = value;
+    };
 
   const savePayment = async () => {
     const res = await formRef.value?.validate();

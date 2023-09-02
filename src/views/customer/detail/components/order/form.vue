@@ -136,11 +136,10 @@
       />
     </a-form-item>
     <a-form-item label="备注" field="extra" validate-trigger="input">
-      <a-textarea
-        v-model="formData.extra"
-        placeholder="please enter your extra..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
+      <MDEditor
+        :value="formData.extra"
+        :read="false"
+        :save="saveEdit('extra')"
       />
     </a-form-item>
     <a-form-item>
@@ -169,6 +168,8 @@
   } from '@/api/customer/order';
   import { OrderFrom, OrderStatus } from '@/types/OrderType';
 
+  import MDEditor from '../md-editor.vue';
+
   const { setLoading } = useLoading();
 
   const customerStore = useCustomerStore();
@@ -194,6 +195,14 @@
       label: OrderStatus[key as keyof typeof OrderStatus],
       value: key,
     }));
+
+  type MDFields = Pick<
+    CustomerOrder,
+    'industry' | 'industryDetail' | 'content' | 'detail' | 'extra'
+  >;
+  const saveEdit = (field: keyof MDFields) => (value: string) => {
+    formData.value[field] = value;
+  };
 
   const saveOrder = async () => {
     const res = await formRef.value?.validate();

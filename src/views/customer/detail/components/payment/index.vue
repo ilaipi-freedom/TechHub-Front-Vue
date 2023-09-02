@@ -26,12 +26,29 @@
               编辑
             </a-link>
           </template>
-          <a-descriptions
-            :data="transformPayment(item as CustomerPayment)"
-            layout="inline-vertical"
-            bordered
-            :column="2"
-          />
+          <a-descriptions layout="inline-vertical" bordered :column="2">
+            <a-descriptions-item label="支付id">
+              <p>{{ item.id }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item label="支付方式">
+              <p>{{ item.payMethod }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item label="支付金额">
+              <p>{{ item.amount }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item key="payTime" label="支付时间">
+              <p>
+                {{
+                  item.payTime
+                    ? dayjs(item.payTime).format('YYYY-MM-DD HH:mm')
+                    : '-'
+                }}
+              </p>
+            </a-descriptions-item>
+            <a-descriptions-item key="extra" label="支付备注">
+              <MDEditor :value="item.extra" read />
+            </a-descriptions-item>
+          </a-descriptions>
         </a-card>
         <CustomerDetailPaymentForm
           v-if="editingId === item.id"
@@ -45,7 +62,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { h, ref, RenderFunction } from 'vue';
+  import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import dayjs from 'dayjs';
 
@@ -56,67 +73,13 @@
     queryCustomerPaymentList,
   } from '@/api/customer/payment';
 
-  import { DescData } from '@arco-design/web-vue';
   import CustomerDetailPaymentForm from './form.vue';
+  import MDEditor from '../md-editor.vue';
 
   const customerStore = useCustomerStore();
 
   const { customerId } = storeToRefs(customerStore);
   const editingId = ref<string>();
-
-  const fieldsMap: {
-    key: string;
-    label: string;
-    format?: (v: string) => string | RenderFunction;
-  }[] = [
-    {
-      key: 'id',
-      label: '支付id',
-      format:
-        (v: string): RenderFunction =>
-        () =>
-          renderId(v),
-    },
-    {
-      key: 'payMethod',
-      label: '支付方式',
-    },
-    {
-      key: 'amount',
-      label: '支付金额',
-    },
-    {
-      key: 'payTime',
-      label: '支付时间',
-      format: (v: string): string =>
-        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
-    },
-    {
-      key: 'extra',
-      label: '支付备注',
-      format: (v: string) => () => renderPaymentText(v),
-    },
-  ];
-  const transformPayment = (payment: CustomerPayment): DescData[] => {
-    const descData: DescData[] = [];
-
-    const transformedFields = fieldsMap.map(({ key, label, format }) => ({
-      label,
-      value: format
-        ? format(payment[key as keyof CustomerPayment] as string)
-        : payment[key as keyof CustomerPayment],
-    }));
-
-    return [...descData, ...transformedFields] as DescData[];
-  };
-
-  const renderPaymentText = (itemContent: string) =>
-    itemContent
-      ? h('div', { class: 'multiline-text-container' }, [
-          h('pre', { class: 'multiline-text' }, itemContent),
-        ])
-      : '-';
-  const renderId = (id: string) => h('p', {}, id);
 
   const { setLoading } = useLoading();
   const payments = ref<Partial<CustomerPayment>[]>([]);

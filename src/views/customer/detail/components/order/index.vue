@@ -23,12 +23,62 @@
               编辑
             </a-link>
           </template>
-          <a-descriptions
-            :data="transformOrder(item as CustomerOrder)"
-            layout="inline-vertical"
-            bordered
-            :column="2"
-          />
+          <a-descriptions layout="inline-vertical" bordered :column="2">
+            <a-descriptions-item label="订单id">
+              <p>{{ item.id }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item key="firstMessageTime" label="首聊时间">
+              <p>
+                {{
+                  item.firstMessageTime
+                    ? dayjs(item.firstMessageTime).format('YYYY-MM-DD HH:mm')
+                    : '-'
+                }}
+              </p>
+            </a-descriptions-item>
+            <a-descriptions-item key="orderTime" label="接单时间">
+              <p>
+                {{
+                  item.orderTime
+                    ? dayjs(item.orderTime).format('YYYY-MM-DD HH:mm')
+                    : '-'
+                }}
+              </p>
+            </a-descriptions-item>
+            <a-descriptions-item key="deliveryTime" label="交付时间">
+              <p>
+                {{
+                  item.deliveryTime
+                    ? dayjs(item.deliveryTime).format('YYYY-MM-DD HH:mm')
+                    : '-'
+                }}
+              </p>
+            </a-descriptions-item>
+            <a-descriptions-item label="来源">
+              <p>{{ item.from }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item label="状态">
+              <p>{{ getOrderStatusName(item.status as unknown as string) }}</p>
+            </a-descriptions-item>
+            <a-descriptions-item key="industry" label="行业类型">
+              <MDEditor :value="item.industry" read />
+            </a-descriptions-item>
+            <a-descriptions-item key="industryDetail" label="行业详情">
+              <MDEditor :value="item.industryDetail" read />
+            </a-descriptions-item>
+            <a-descriptions-item key="content" label="工作内容">
+              <MDEditor :value="item.content" read />
+            </a-descriptions-item>
+            <a-descriptions-item label="仓库地址">
+              <a :href="item.repo" target="_blank">{{ item.repo }}</a>
+            </a-descriptions-item>
+            <a-descriptions-item key="detail" label="工作详情">
+              <MDEditor :value="item.detail" read />
+            </a-descriptions-item>
+            <a-descriptions-item key="extra" label="工作备注">
+              <MDEditor :value="item.extra" read />
+            </a-descriptions-item>
+          </a-descriptions>
         </a-card>
         <CustomerDetailOrderForm
           v-if="editingId === item.id"
@@ -42,10 +92,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { h, ref, RenderFunction } from 'vue';
+  import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
   import dayjs from 'dayjs';
-  import { DescData } from '@arco-design/web-vue';
 
   import useLoading from '@/hooks/loading';
   import { useCustomerStore } from '@/store/';
@@ -53,6 +102,7 @@
   import { getOrderStatusName } from '@/types/OrderType';
 
   import CustomerDetailOrderForm from './form.vue';
+  import MDEditor from '../md-editor.vue';
 
   const customerStore = useCustomerStore();
 
@@ -73,94 +123,6 @@
     setLoading(false);
   };
   initOrders();
-  const fieldsMap: {
-    field: string;
-    label: string;
-    format?: (v: string) => string | RenderFunction;
-  }[] = [
-    {
-      field: 'id',
-      label: '订单id',
-      format:
-        (v: string): RenderFunction =>
-        () =>
-          renderId(v),
-    },
-    {
-      field: 'firstMessageTime',
-      label: '首聊时间',
-      format: (v: string): string =>
-        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
-    },
-    {
-      field: 'orderTime',
-      label: '接单时间',
-      format: (v: string): string =>
-        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
-    },
-    {
-      field: 'deliveryTime',
-      label: '交付时间',
-      format: (v: string): string =>
-        v ? dayjs(v).format('YYYY-MM-DD HH:mm') : '-',
-    },
-    {
-      field: 'from',
-      label: '来源',
-    },
-    {
-      field: 'status',
-      label: '状态',
-      format: (v: string) => getOrderStatusName(v),
-    },
-    {
-      field: 'industry',
-      label: '行业类型',
-      format: (v: string) => () => renderOrderText(v),
-    },
-    {
-      field: 'industryDetail',
-      label: '行业详情',
-      format: (v: string) => () => renderOrderText(v),
-    },
-    {
-      field: 'content',
-      label: '工作内容',
-      format: (v: string) => () => renderOrderText(v),
-    },
-    {
-      field: 'repo',
-      label: '仓库地址',
-      format: (v: string) => () =>
-        v ? h('a', { href: v, target: '_blank' }, v) : '-',
-    },
-    {
-      field: 'detail',
-      label: '工作详情',
-      format: (v: string) => () => renderOrderText(v),
-    },
-    {
-      field: 'extra',
-      label: '工作备注',
-      format: (v: string) => () => renderOrderText(v),
-    },
-  ];
-
-  const renderOrderText = (itemContent: string) =>
-    itemContent
-      ? h('div', { class: 'multiline-text-container' }, [
-          h('pre', { class: 'multiline-text' }, itemContent),
-        ])
-      : '-';
-  const renderId = (id: string) => h('p', {}, id);
-
-  const transformOrder = (order: CustomerOrder) =>
-    fieldsMap.map(({ label, field, format }) => ({
-      label,
-      value: format
-        ? format(order[field as keyof CustomerOrder] as string)
-        : order[field as keyof CustomerOrder],
-    })) as DescData[];
 
   const edit = (id: string) => {
     editingId.value = id;

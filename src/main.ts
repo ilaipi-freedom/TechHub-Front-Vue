@@ -1,6 +1,8 @@
 import { createApp } from 'vue';
 import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
 import globalComponents from '@/components';
 import router from './router';
 import store from './store';
@@ -19,6 +21,7 @@ const app = createApp(App);
 
 app.use(ArcoVue, {});
 app.use(ArcoVueIcon);
+app.use(mavonEditor);
 
 app.use(router);
 app.use(store);

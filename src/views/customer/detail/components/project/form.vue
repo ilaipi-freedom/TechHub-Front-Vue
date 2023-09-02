@@ -15,6 +15,7 @@
             v-model="formData.begin"
             :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             placeholder="Please select ..."
+            position="top"
             class="w-full"
           />
         </a-form-item>
@@ -25,33 +26,31 @@
             v-model="formData.end"
             :disabled-date="(current) => dayjs(current).isAfter(dayjs())"
             placeholder="Please select ..."
+            position="top"
             class="w-full"
           />
         </a-form-item>
       </a-col>
     </a-row>
     <a-form-item label="项目描述" field="description" validate-trigger="input">
-      <a-textarea
-        v-model="formData.description"
-        placeholder="please enter your description..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
+      <MDEditor
+        :value="formData.description"
+        :read="false"
+        :save="saveEdit('description')"
       />
     </a-form-item>
     <a-form-item label="项目内容" field="content" validate-trigger="input">
-      <a-textarea
-        v-model="formData.content"
-        placeholder="please enter your extra..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
+      <MDEditor
+        :value="formData.content"
+        :read="false"
+        :save="saveEdit('content')"
       />
     </a-form-item>
     <a-form-item label="备注" field="extra" validate-trigger="input">
-      <a-textarea
-        v-model="formData.extra"
-        placeholder="please enter your extra..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
+      <MDEditor
+        :value="formData.extra"
+        :read="false"
+        :save="saveEdit('extra')"
       />
     </a-form-item>
     <a-form-item>
@@ -79,6 +78,8 @@
     updateCustomerProject,
   } from '@/api/customer/project';
 
+  import MDEditor from '../md-editor.vue';
+
   const { setLoading } = useLoading();
 
   const customerStore = useCustomerStore();
@@ -93,6 +94,10 @@
 
   const formData = toRef(props.project || ({} as CustomerProject));
   const formRef = ref<FormInstance>();
+
+  const saveEdit = (field: keyof CustomerProject) => (value: string) => {
+    formData.value[field] = value;
+  };
 
   const saveProject = async () => {
     const res = await formRef.value?.validate();
