@@ -61,22 +61,22 @@
               <p>{{ getOrderStatusName(item.status as unknown as string) }}</p>
             </a-descriptions-item>
             <a-descriptions-item key="industry" label="行业类型">
-              <MDEditor :value="item.industry" read />
+              <MDEditor :value="item.industry as string" read />
             </a-descriptions-item>
             <a-descriptions-item key="industryDetail" label="行业详情">
-              <MDEditor :value="item.industryDetail" read />
+              <MDEditor :value="item.industryDetail as string" read />
             </a-descriptions-item>
             <a-descriptions-item key="content" label="工作内容">
-              <MDEditor :value="item.content" read />
+              <MDEditor :value="item.content as string" read />
             </a-descriptions-item>
             <a-descriptions-item label="仓库地址">
               <a :href="item.repo" target="_blank">{{ item.repo }}</a>
             </a-descriptions-item>
             <a-descriptions-item key="detail" label="工作详情">
-              <MDEditor :value="item.detail" read />
+              <MDEditor :value="item.detail as string" read />
             </a-descriptions-item>
             <a-descriptions-item key="extra" label="工作备注">
-              <MDEditor :value="item.extra" read />
+              <MDEditor :value="item.extra as string" read />
             </a-descriptions-item>
           </a-descriptions>
         </a-card>

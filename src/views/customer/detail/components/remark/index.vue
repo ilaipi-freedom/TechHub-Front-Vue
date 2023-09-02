@@ -21,7 +21,7 @@
               编辑
             </a-link>
           </template>
-          <MDEditor :value="item.content" read />
+          <MDEditor :value="item.content as string" read />
         </a-card>
         <CustomerDetailEditRemark
           v-if="item.id === editingId"

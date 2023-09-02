@@ -50,13 +50,13 @@
               </p>
             </a-descriptions-item>
             <a-descriptions-item key="description" label="项目描述">
-              <MDEditor :value="item.description" read />
+              <MDEditor :value="item.description as string" read />
             </a-descriptions-item>
             <a-descriptions-item key="content" label="项目内容">
-              <MDEditor :value="item.content" read />
+              <MDEditor :value="item.content as string" read />
             </a-descriptions-item>
             <a-descriptions-item key="extra" label="项目备注">
-              <MDEditor :value="item.extra" read />
+              <MDEditor :value="item.extra as string" read />
             </a-descriptions-item>
           </a-descriptions>
         </a-card>

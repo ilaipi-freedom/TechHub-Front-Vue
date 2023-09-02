@@ -7,7 +7,11 @@
       />
     </a-form-item>
     <a-form-item label="内容" field="content" validate-trigger="input">
-      <MDEditor :value="formData.content" :read="false" :save="saveEdit" />
+      <MDEditor
+        :value="formData.content as string"
+        :read="false"
+        :save="saveEdit"
+      />
     </a-form-item>
     <a-form-item>
       <a-space>
