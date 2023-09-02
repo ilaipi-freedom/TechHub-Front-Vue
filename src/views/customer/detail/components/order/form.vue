@@ -86,21 +86,19 @@
     <a-row :gutter="16">
       <a-col :span="12">
         <a-form-item field="industry" label="行业类型">
-          <a-textarea
-            v-model="formData.industry"
-            placeholder="please enter your industry..."
-            :style="{ minHeight: '50px' }"
-            :auto-size="{ minRows: 3, maxRows: 6 }"
+          <MDEditor
+            :value="formData.industry"
+            :read="false"
+            :save="saveEdit('industry')"
           />
         </a-form-item>
       </a-col>
       <a-col :span="12">
         <a-form-item field="industryDetail" label="行业详情">
-          <a-textarea
-            v-model="formData.industryDetail"
-            placeholder="please enter your industryDetail..."
-            :style="{ minHeight: '50px' }"
-            :auto-size="{ minRows: 3, maxRows: 6 }"
+          <MDEditor
+            :value="formData.industryDetail"
+            :read="false"
+            :save="saveEdit('industryDetail')"
           />
         </a-form-item>
       </a-col>
@@ -108,11 +106,10 @@
     <a-row :gutter="16">
       <a-col :span="12">
         <a-form-item field="content" label="内容">
-          <a-textarea
-            v-model="formData.content"
-            placeholder="please enter your content..."
-            :style="{ minHeight: '50px' }"
-            :auto-size="{ minRows: 3, maxRows: 6 }"
+          <MDEditor
+            :value="formData.content"
+            :read="false"
+            :save="saveEdit('content')"
           />
         </a-form-item>
       </a-col>
@@ -128,11 +125,10 @@
       </a-col>
     </a-row>
     <a-form-item label="详情" field="detail" validate-trigger="input">
-      <a-textarea
-        v-model="formData.detail"
-        placeholder="please enter your detail..."
-        :style="{ minHeight: '100px' }"
-        :auto-size="{ minRows: 3, maxRows: 6 }"
+      <MDEditor
+        :value="formData.detail"
+        :read="false"
+        :save="saveEdit('detail')"
       />
     </a-form-item>
     <a-form-item label="备注" field="extra" validate-trigger="input">

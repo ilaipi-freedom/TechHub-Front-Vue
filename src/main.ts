@@ -3,6 +3,7 @@ import ArcoVue from '@arco-design/web-vue';
 import ArcoVueIcon from '@arco-design/web-vue/es/icon';
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
+import 'mavon-editor/dist/markdown/github-markdown.min.css';
 import globalComponents from '@/components';
 import router from './router';
 import store from './store';
