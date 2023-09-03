@@ -38,7 +38,7 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ steps.package-version.outputs.current-version }}-$(date +%s)
+        tags: ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}}
 
     - name: Build and push Latest
       uses: docker/build-push-action@v4
