@@ -17,6 +17,9 @@ jobs:
     - name: get-npm-version
       id: package-version
       uses: martinbeentjes/npm-get-version-action@v1.3.1
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
     - name: define-tag
       id: define-image-tag
