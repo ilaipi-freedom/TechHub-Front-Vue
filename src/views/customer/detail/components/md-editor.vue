@@ -13,7 +13,7 @@
     <p v-else>-</p>
   </div>
   <div v-else>
-    <a-scrollbar v-if="value" style="height: 400px; overflow-y: auto">
+    <a-scrollbar style="height: 400px; overflow-y: auto">
       <mavon-editor
         v-model="text"
         style="height: 100%"
