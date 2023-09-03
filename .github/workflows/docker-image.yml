@@ -24,7 +24,9 @@ jobs:
         echo "IMAGE_TAG_NAME=${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ steps.package-version.outputs.current-version}}-$(date +%s)" >> $GITHUB_OUTPUT
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}}
+      run: |
+        docker buildx create --use
+        docker build . --file Dockerfile --platform linux/amd64,linux/arm64 --tag ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}}
 
     - name: Latest Tag
       run: docker image tag ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}} ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
