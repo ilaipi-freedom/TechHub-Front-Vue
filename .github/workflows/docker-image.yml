@@ -32,18 +32,10 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Build and push by Time
+    - name: Build and push
       uses: docker/build-push-action@v4
       with:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        tags: ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}}
-
-    - name: Build and push Latest
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        platforms: linux/amd64,linux/arm64
-        push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
+        tags: ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}},${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
