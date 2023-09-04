@@ -1,7 +1,7 @@
 import type { RouteRecordNormalized } from 'vue-router';
 
 const modules = import.meta.glob('./modules/*.ts', { eager: true });
-const externalModules = import.meta.glob('./externalModules/f*.ts', {
+const externalModules = import.meta.glob('./externalModules/ff*.ts', {
   eager: true,
 });
 
