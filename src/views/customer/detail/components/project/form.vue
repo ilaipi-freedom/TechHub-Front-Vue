@@ -110,7 +110,7 @@
       } else {
         await createCustomerProject({
           ...payload,
-          customer: customerId.value,
+          customerId: customerId.value,
         });
         Message.success('创建成功');
       }

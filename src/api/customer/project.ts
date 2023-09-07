@@ -8,8 +8,8 @@ export interface CustomerProject {
   end: string;
   content: string;
   extra: string;
-  customer: string;
-  account: string;
+  customerId?: string;
+  accountId?: string;
 }
 
 export function queryCustomerProjectList(customerId: string) {

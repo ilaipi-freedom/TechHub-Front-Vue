@@ -209,7 +209,7 @@
         await updateCustomerOrder(payload);
         Message.success('更新成功');
       } else {
-        await createCustomerOrder({ ...payload, customer: customerId.value });
+        await createCustomerOrder({ ...payload, customerId: customerId.value });
         Message.success('创建成功');
       }
       await props.refresh();

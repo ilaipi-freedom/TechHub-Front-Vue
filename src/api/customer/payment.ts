@@ -9,9 +9,9 @@ export interface CustomerPayment {
   order?: string;
   payMethod: PaymentMethod;
   extra: string;
-  customer: string;
-  account: string;
-  project: string;
+  customerId?: string;
+  accountId?: string;
+  projectId?: string;
 }
 
 export function queryCustomerPaymentList(customerId: string) {

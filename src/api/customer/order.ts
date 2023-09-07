@@ -15,9 +15,9 @@ export interface CustomerOrder {
   industry: string;
   industryDetail: string;
   repo: string;
-  customer: string;
-  account: string;
-  project: string;
+  customerId?: string;
+  accountId?: string;
+  projectId?: string;
 }
 
 export function queryCustomerOrderList(customerId: string) {
