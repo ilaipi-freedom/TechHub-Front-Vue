@@ -124,20 +124,26 @@
         </a-form-item>
       </a-col>
     </a-row>
-    <a-form-item label="详情" field="detail" validate-trigger="input">
-      <MDEditor
-        :value="formData.detail"
-        :read="false"
-        :save="saveEdit('detail')"
-      />
-    </a-form-item>
-    <a-form-item label="备注" field="extra" validate-trigger="input">
-      <MDEditor
-        :value="formData.extra"
-        :read="false"
-        :save="saveEdit('extra')"
-      />
-    </a-form-item>
+    <a-row :gutter="16">
+      <a-col :span="12">
+        <a-form-item label="详情" field="detail" validate-trigger="input">
+          <MDEditor
+            :value="formData.detail"
+            :read="false"
+            :save="saveEdit('detail')"
+          />
+        </a-form-item>
+      </a-col>
+      <a-col :span="12">
+        <a-form-item label="备注" field="extra" validate-trigger="input">
+          <MDEditor
+            :value="formData.extra"
+            :read="false"
+            :save="saveEdit('extra')"
+          />
+        </a-form-item>
+      </a-col>
+    </a-row>
     <a-form-item>
       <a-space>
         <a-button type="primary" @click="saveOrder">保存</a-button>

@@ -12,18 +12,20 @@
     </a-scrollbar>
     <p v-else>-</p>
   </div>
-  <div v-else>
-    <a-scrollbar style="height: 400px; overflow-y: auto">
-      <mavon-editor
-        v-model="text"
-        style="height: 100%"
-        :subfield="false"
-        default-open="edit"
-        :external-link="externalLink"
-        @save="save"
-        @change="save"
-      />
-    </a-scrollbar>
+  <div v-else :style="{ width: '100%' }">
+    <a-card>
+      <a-scrollbar style="height: 400px; width: 100%; overflow-y: auto">
+        <mavon-editor
+          v-model="text"
+          style="height: 100%"
+          :subfield="false"
+          default-open="edit"
+          :external-link="externalLink"
+          @save="save"
+          @change="save"
+        />
+      </a-scrollbar>
+    </a-card>
   </div>
 </template>
 

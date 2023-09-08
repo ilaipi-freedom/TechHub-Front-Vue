@@ -9,10 +9,12 @@
     <a-space />
     <a-row class="list-row" :gutter="24">
       <a-col v-if="!!addingRemark" class="list-col" :span="12">
-        <CustomerDetailEditRemark
-          :cancel="removeAdding"
-          :refresh="initRemarks"
-        />
+        <a-card>
+          <CustomerDetailEditRemark
+            :cancel="removeAdding"
+            :refresh="initRemarks"
+          />
+        </a-card>
       </a-col>
       <a-col v-for="item in remarks" :key="item.id" class="list-col" :span="12">
         <a-card v-if="item.id !== editingId" :title="item.title">
