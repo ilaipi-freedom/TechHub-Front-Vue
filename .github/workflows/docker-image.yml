@@ -35,3 +35,28 @@ jobs:
         context: .
         push: true
         tags: ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}},${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
+
+    -
+      name: Tailscale
+      uses: tailscale/github-action@v2
+      with:
+        oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+        oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+        tags: tag:ci
+
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: 192.168.5.202
+        username: ${{ secrets.SSH_USERNAME_202 }}
+        key: ${{ secrets.SSH_KEY_202 }}
+        port: ${{ secrets.SSH_PORT_202 }}
+        script: |
+          docker pull ilaipi/freedom-front
+
+          docker rm -f freedom_front
+
+          docker run -dit --link freedom_backend \
+            --name freedom_front \
+            -p 39891:80 --restart always \
+            ilaipi/freedom-front
