@@ -19,7 +19,7 @@
 
   import useLoading from '@/hooks/loading';
   import { groupByPeriod } from '@/api/dashboard';
-  import { keyBy, sumBy } from 'lodash';
+  import { sumBy } from 'lodash';
 
   const { loading } = useLoading();
   const chartOption = ref<EChartsOption>({});
@@ -27,8 +27,9 @@
     const {
       data: { data, timePeriod },
     } = await groupByPeriod();
-    const dataMap = keyBy(data as Array<any>, 'timePeriod');
-    const totalCustomerNum = sumBy(data, (row: any) => Number(row.count));
+    const totalCustomerNum = sumBy(Object.keys(data), (period: string) =>
+      Number(data[period])
+    );
     const colors = [
       '#3D72F6',
       '#249EFF',
@@ -39,7 +40,7 @@
     ];
     const series0Data = timePeriod.map((period: string, idx: number) => ({
       name: period,
-      value: [dataMap[period.split(':')[0]].count],
+      value: [data[period.split(':')[0]]],
       itemStyle: { color: colors[idx] },
     }));
     chartOption.value = {

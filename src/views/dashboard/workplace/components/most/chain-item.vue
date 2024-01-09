@@ -96,12 +96,12 @@
     const {
       data: { top5, totalPaid },
     } = await statisticsMostPaid(props.quota);
-    count.value = totalPaid;
+    count.value = Number(totalPaid) || 0;
     top5.forEach((el: any) => {
       chartCategories.value.push(`V: ${el.weixin}`);
       chartData.value.push({
-        value: el.totalAmount || el.paymentCount,
-        label: 'hehe',
+        value: el.amount || el.paymentCount,
+        label: '累计支付金额',
         itemStyle: {
           color: '#468DFF',
         },

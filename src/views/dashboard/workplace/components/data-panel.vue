@@ -61,13 +61,13 @@
         </a-avatar>
         <a-statistic
           :title="'累计已赚'"
-          :value="nums.totalPaid"
+          :value="Number(nums.totalPaid) || 0"
           :value-from="0"
           animation
           show-group-separator
         >
           <template #suffix>
-            <span class="unit">{{ $t('workplace.pecs') }}</span>
+            <span class="unit">元</span>
           </template>
         </a-statistic>
       </a-space>
