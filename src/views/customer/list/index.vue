@@ -24,11 +24,13 @@
   } from '@/api/customer/list';
   import { Pagination } from '@/types/global';
   import useLoading from '@/hooks/loading';
+  import { useCustomerSearchStore } from '@/store/';
 
   import CustomerListSearch from './components/customer-search.vue';
   import CustomerListAction from './components/customer-action.vue';
   import CustomerListTable from './components/customer-list.vue';
 
+  const searchStore = useCustomerSearchStore();
   const { loading, setLoading } = useLoading(true);
   const renderData = ref<Customer[]>([]);
   const basePagination: Pagination = {
@@ -38,6 +40,12 @@
   const pagination = reactive({
     ...basePagination,
   });
+  const search = async () => {
+    const query = {
+      ...searchStore.$state,
+    } as CustomerParams;
+    fetchData(query);
+  };
   const fetchData = async (
     params: CustomerParams = { current: 1, pageSize: 20 }
   ) => {
@@ -54,10 +62,11 @@
     }
   };
   const onPageChange = (current: number) => {
-    fetchData({ ...basePagination, current });
+    searchStore.$patch({ ...basePagination, current });
+    search();
   };
 
-  fetchData();
+  search();
 </script>
 
 <script lang="ts">
@@ -70,41 +79,5 @@
   .container {
     padding: 0 20px 20px 20px;
     background-color: #fff;
-  }
-
-  .layout {
-    display: flex;
-
-    &-left-side {
-      flex-basis: 300px;
-      border-right: 1px solid #0000001a;
-    }
-
-    &-content {
-      flex: 1;
-      padding: 0 16px;
-    }
-  }
-</style>
-
-<style lang="less" scoped>
-  // responsive
-  @media (max-width: @screen-lg) {
-    .layout {
-      flex-wrap: wrap;
-      &-left-side {
-        flex: 1;
-        flex-basis: 100%;
-        margin-bottom: 16px;
-      }
-
-      &-content {
-        flex: none;
-        flex-basis: 100%;
-        padding: 0;
-        order: -1;
-        margin-bottom: 16px;
-      }
-    }
   }
 </style>

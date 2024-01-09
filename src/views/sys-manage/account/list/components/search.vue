@@ -70,14 +70,12 @@
 
   import { AccountParams } from '@/api/sys-manage/account';
   import { useAccountSearchStore } from '@/store/';
-  import useLoading from '@/hooks/loading';
   import { AvailableStatus } from '@/config/common';
 
   const props = defineProps<{
     fetchData: () => void;
   }>();
 
-  const { loading, setLoading } = useLoading();
   const accountSearchStore = useAccountSearchStore();
   const searchStore = storeToRefs(accountSearchStore);
 

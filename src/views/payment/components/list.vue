@@ -9,7 +9,6 @@
       :bordered="false"
       :size="size"
       @page-change="onPageChange"
-      @page-size-change="onPageSizeChange"
     >
       <template #index="{ rowIndex }">
         {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
@@ -39,9 +38,6 @@
       <template #type="{ record }">
         {{ payMethodMap[record.payMethod]?.label }}
       </template>
-      <template #score="{ record }">
-        {{ record.is_income ? '+' : '-' }}{{ record.score }}
-      </template>
     </a-table>
   </a-spin>
 </template>
@@ -59,7 +55,6 @@
     fetchData: () => Promise<void>;
     setLoading: (v: boolean) => void;
     onPageChange: (current: number) => void;
-    onPageSizeChange: (pageSize: number) => void;
     pagination: Pagination;
     loading: boolean;
     renderData: CustomerPayment[];

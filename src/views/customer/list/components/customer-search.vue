@@ -89,6 +89,7 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { storeToRefs } from 'pinia';
+  import { merge } from 'lodash';
 
   import { CustomerParams } from '@/api/customer/list';
   import { useCustomerSearchStore } from '@/store/';
@@ -104,14 +105,8 @@
     searchStore as Partial<CustomerParams>
   );
   const search = async () => {
-    const { q, firstMessageTime } = formModel.value;
     const searchParams: Partial<CustomerParams> = {};
-    if (q) {
-      searchParams.q = q;
-    }
-    if (firstMessageTime) {
-      searchParams.firstMessageTime = firstMessageTime;
-    }
+    merge(searchParams, formModel.value);
     customerSearchStore.$reset();
     customerSearchStore.$patch(searchParams);
     const query = {
@@ -128,36 +123,6 @@
 
 <script lang="ts">
   export default {
-    name: 'SearchTable',
+    name: 'CustomerListSearch',
   };
 </script>
-
-<style scoped lang="less">
-  .container {
-    padding: 0 20px 20px 20px;
-  }
-  :deep(.arco-table-th) {
-    &:last-child {
-      .arco-table-th-item-title {
-        margin-left: 16px;
-      }
-    }
-  }
-  .action-icon {
-    margin-left: 12px;
-    cursor: pointer;
-  }
-  .active {
-    color: #0960bd;
-    background-color: #e3f4fc;
-  }
-  .setting {
-    display: flex;
-    align-items: center;
-    width: 200px;
-    .title {
-      margin-left: 12px;
-      cursor: pointer;
-    }
-  }
-</style>

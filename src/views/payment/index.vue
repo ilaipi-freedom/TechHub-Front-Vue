@@ -10,7 +10,6 @@
       :loading="loading"
       :fetch-data="search"
       :on-page-change="onPageChange"
-      :on-page-size-change="onPageSizeChange"
       :pagination="pagination"
       :render-data="renderData"
       :set-loading="setLoading"
@@ -54,13 +53,6 @@
     } as CustomerPaymentParams;
     fetchData(query);
   };
-  const onPageSizeChange = (v: number) => {
-    pagination.pageSize = v;
-    searchStore.pageSize = v;
-    searchStore.current = 1;
-    basePagination.pageSize = v;
-    search();
-  };
   const fetchData = async (
     params: CustomerPaymentParams = { current: 1, pageSize: 50 }
   ) => {
@@ -68,6 +60,7 @@
     try {
       const { data } = await queryCustomerPaymentList(params);
       renderData.value = data.list;
+      pagination.current = params.current as number;
       pagination.total = data.total;
     } catch (err) {
       // you can report use errorHandler or other
