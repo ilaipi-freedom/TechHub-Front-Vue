@@ -14,8 +14,21 @@ export interface CustomerPayment {
   projectId?: string;
 }
 
-export function queryCustomerPaymentList(customerId: string) {
-  return axios.get('/fdapi/customer-payment/list', { params: { customerId } });
+export interface CustomerPaymentListSearch {
+  q?: string;
+  customerId?: string;
+  date?: string[];
+}
+
+export interface CustomerPaymentParams
+  extends Partial<CustomerPaymentListSearch> {
+  current?: number;
+  pageSize?: number;
+  isAll?: boolean;
+}
+
+export function queryCustomerPaymentList(params: CustomerPaymentParams) {
+  return axios.get('/fdapi/customer-payment/list', { params });
 }
 
 export function updateCustomerPayment(payload: Partial<CustomerPayment>) {

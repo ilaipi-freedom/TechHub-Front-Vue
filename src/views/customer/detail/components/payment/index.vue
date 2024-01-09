@@ -89,7 +89,10 @@
       return;
     }
     setLoading(true);
-    const { data } = await queryCustomerPaymentList(customerId.value);
+    const { data } = await queryCustomerPaymentList({
+      customerId: customerId.value,
+      isAll: true,
+    });
     payments.value = data;
     setLoading(false);
   };

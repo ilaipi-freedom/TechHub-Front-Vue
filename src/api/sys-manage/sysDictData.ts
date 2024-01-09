@@ -1,6 +1,8 @@
 import axios from 'axios';
 import qs from 'query-string';
 
+import { SysDict } from './sysDict';
+
 export interface SysDictData {
   id: string;
   sort?: number;
@@ -10,6 +12,7 @@ export interface SysDictData {
   remark?: string;
   extra?: string;
   status: string;
+  sysDict?: SysDict;
 }
 
 export interface SysDictDataListSearch {

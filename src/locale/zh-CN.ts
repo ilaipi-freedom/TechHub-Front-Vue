@@ -1,13 +1,19 @@
+import { merge } from 'lodash';
+
 import localeMessageBox from '@/components/message-box/locale/zh-CN';
-import localeLogin from '@/views/login/locale/zh-CN';
 
 import localeWorkplace from '@/views/dashboard/workplace/locale/zh-CN';
 
-import localeSysManage from '@/views/sys-manage/locale/zh-CN';
-
-import localeCustomerManage from '@/views/customer/locale/zh-CN';
-
 import localeSettings from './zh-CN/settings';
+
+const modules = import.meta.glob('@/views/*/locale/zh-CN.ts', { eager: true });
+
+const locales: Record<string, string> = {};
+Object.keys(modules).forEach((key) => {
+  const defaultModule = (modules[key] as any).default;
+  if (!defaultModule) return;
+  merge(locales, defaultModule);
+});
 
 export default {
   'menu.dashboard': '仪表盘',
@@ -25,10 +31,8 @@ export default {
   'menu.faq': '常见问题',
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
-  ...localeSysManage,
-  ...localeCustomerManage,
   ...localeSettings,
   ...localeMessageBox,
-  ...localeLogin,
   ...localeWorkplace,
+  ...locales,
 };
