@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { useSysDictDetailStore } from '@/store/';
+  import useSysDictDetailStore from '@/store/modules/sys-manage/sysDict/detail';
 
   const sysDictDetailStore = useSysDictDetailStore();
 

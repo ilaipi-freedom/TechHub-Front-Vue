@@ -17,7 +17,12 @@
         validate-trigger="input"
         :rules="[{ required: true, message: '请输入数据类型' }]"
       >
-        <a-input v-model="formModel.type" placeholder="请输入..." />
+        <a-select
+          v-model="formModel.type"
+          placeholder="请选择"
+          :options="sysDictList"
+          :field-names="{ value: 'type', label: 'name' }"
+        />
       </a-form-item>
       <a-form-item
         label="数据名称"
@@ -93,7 +98,12 @@
     querySysDictDataDetail,
     updateSysDictData,
   } from '@/api/sys-manage/sysDictData';
-  import { useSysDictDataDetailStore } from '@/store/';
+  import {
+    querySysDictList,
+    SysDict,
+    SysDictParams,
+  } from '@/api/sys-manage/sysDict';
+  import useSysDictDataDetailStore from '@/store/modules/sys-manage/sysDictData/detail';
   import { AvailableStatus } from '@/config/common';
 
   const props = defineProps<{
@@ -103,6 +113,20 @@
   const formModel = ref<Partial<SysDictData>>({ status: 'normal' });
   const formRef = ref<FormInstance>();
   const sysDictDataDetailStore = useSysDictDataDetailStore();
+  const sysDictList = ref<SysDict[]>([]);
+
+  const fetchSysDict = async (
+    params: SysDictParams = { current: 1, pageSize: 20 }
+  ) => {
+    try {
+      const { data } = await querySysDictList(params);
+      sysDictList.value = data.list;
+      console.log('==========data.list', data.list);
+    } catch (err) {
+      // you can report use errorHandler or other
+    }
+  };
+  fetchSysDict();
 
   const handleOk = async () => {
     const validateRes = await formRef.value?.validate();

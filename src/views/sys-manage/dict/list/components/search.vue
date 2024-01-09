@@ -9,21 +9,12 @@
       >
         <a-row :gutter="16">
           <a-col :span="8">
-            <a-form-item field="q" label="公司简称">
+            <a-form-item field="q" label="关键字">
               <a-input
                 v-model="formModel.q"
-                placeholder="请输入公司简称"
+                placeholder="请输入关键字"
                 allow-clear
                 @press-enter="search"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="8">
-            <a-form-item field="status" label="公司状态">
-              <a-select
-                v-model="formModel.status"
-                :options="AvailableStatus"
-                placeholder="请选择"
               />
             </a-form-item>
           </a-col>
@@ -54,8 +45,7 @@
   import { storeToRefs } from 'pinia';
 
   import { SysDictParams } from '@/api/sys-manage/sysDict';
-  import { useSysDictSearchStore } from '@/store/';
-  import { AvailableStatus } from '@/config/common';
+  import useSysDictSearchStore from '@/store/modules/sys-manage/sysDict/list';
 
   const props = defineProps<{
     fetchData: () => void;
@@ -68,13 +58,10 @@
     searchStore as Partial<SysDictParams>
   );
   const search = async () => {
-    const { q, status } = formModel.value;
+    const { q } = formModel.value;
     const searchParams: Partial<SysDictParams> = {};
     if (q) {
       searchParams.q = q;
-    }
-    if (status) {
-      searchParams.status = status;
     }
     sysDictSearchStore.$reset();
     sysDictSearchStore.$patch(searchParams);

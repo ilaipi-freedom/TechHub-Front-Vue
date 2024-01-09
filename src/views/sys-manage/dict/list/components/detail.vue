@@ -84,7 +84,7 @@
     querySysDictDetail,
     updateSysDict,
   } from '@/api/sys-manage/sysDict';
-  import { useSysDictDetailStore } from '@/store/';
+  import useSysDictDetailStore from '@/store/modules/sys-manage/sysDict/detail';
   import { AvailableStatus, SysDictCategory } from '@/config/common';
 
   const props = defineProps<{

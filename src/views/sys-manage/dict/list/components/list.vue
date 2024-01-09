@@ -39,8 +39,8 @@
 
   import { SysDict } from '@/api/sys-manage/sysDict';
   import { Pagination } from '@/types/global';
-  import { useSysDictDetailStore } from '@/store/';
   import { AvailableStatus, SysDictCategory } from '@/config/common';
+  import useSysDictDetailStore from '@/store/modules/sys-manage/sysDict/detail';
 
   import SysDictDetail from './detail.vue';
 

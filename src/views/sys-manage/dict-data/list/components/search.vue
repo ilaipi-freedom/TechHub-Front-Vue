@@ -9,11 +9,7 @@
       >
         <a-row :gutter="16">
           <a-col :span="8">
-            <a-form-item
-              field="q"
-              label="关键字"
-              tooltip="可模糊匹配姓名、手机号、用户名"
-            >
+            <a-form-item field="q" label="关键字" tooltip="可模糊匹配名称和值">
               <a-input
                 v-model="formModel.q"
                 placeholder="请输入关键字"
@@ -23,11 +19,12 @@
             </a-form-item>
           </a-col>
           <a-col :span="8">
-            <a-form-item field="status" label="用户状态">
+            <a-form-item field="type" label="字典类型">
               <a-select
-                v-model="formModel.status"
-                :options="AvailableStatus"
+                v-model="formModel.type"
+                :options="sysDictList"
                 placeholder="请选择"
+                :field-names="{ value: 'type', label: 'name' }"
               />
             </a-form-item>
           </a-col>
@@ -58,8 +55,12 @@
   import { storeToRefs } from 'pinia';
 
   import { SysDictDataParams } from '@/api/sys-manage/sysDictData';
-  import { useSysDictDataSearchStore } from '@/store/';
-  import { AvailableStatus } from '@/config/common';
+  import useSysDictDataSearchStore from '@/store/modules/sys-manage/sysDictData/list';
+  import {
+    querySysDictList,
+    SysDict,
+    SysDictParams,
+  } from '@/api/sys-manage/sysDict';
 
   const props = defineProps<{
     fetchData: () => void;
@@ -67,18 +68,32 @@
 
   const sysDictDataSearchStore = useSysDictDataSearchStore();
   const searchStore = storeToRefs(sysDictDataSearchStore);
+  const sysDictList = ref<SysDict[]>([]);
 
   const formModel = ref<Partial<SysDictDataParams>>(
     searchStore as Partial<SysDictDataParams>
   );
+
+  const fetchSysDict = async (
+    params: SysDictParams = { current: 1, pageSize: 20 }
+  ) => {
+    try {
+      const { data } = await querySysDictList(params);
+      sysDictList.value = data.list;
+      console.log('==========data.list', data.list);
+    } catch (err) {
+      // you can report use errorHandler or other
+    }
+  };
+  fetchSysDict();
   const search = async () => {
-    const { q, status } = formModel.value;
+    const { q, type } = formModel.value;
     const searchParams: Partial<SysDictDataParams> = {};
     if (q) {
       searchParams.q = q;
     }
-    if (status) {
-      searchParams.status = status;
+    if (type) {
+      searchParams.type = type;
     }
     sysDictDataSearchStore.$reset();
     sysDictDataSearchStore.$patch(searchParams);

@@ -12,6 +12,11 @@
     <template #index="{ rowIndex }">
       {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
     </template>
+    <template #sysDict="{ record }">
+      <a-tooltip :content="record.type">
+        <a-tag size="large" color="arcoblue">{{ record.sysDict?.name }}</a-tag>
+      </a-tooltip>
+    </template>
     <template #status="{ record }">
       {{ availableStatusMap[record.status].label }}
     </template>
@@ -39,8 +44,8 @@
 
   import { SysDictData } from '@/api/sys-manage/sysDictData';
   import { Pagination } from '@/types/global';
-  import { useSysDictDataDetailStore } from '@/store/';
   import { AvailableStatus } from '@/config/common';
+  import useSysDictDataDetailStore from '@/store/modules/sys-manage/sysDictData/detail';
 
   import SysDictDataDetail from './detail.vue';
 
@@ -72,6 +77,8 @@
     {
       title: '数据类型',
       dataIndex: 'type',
+      align: 'center',
+      slotName: 'sysDict',
     },
     {
       title: '数据名称',

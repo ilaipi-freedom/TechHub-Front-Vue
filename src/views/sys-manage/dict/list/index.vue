@@ -30,7 +30,7 @@
   } from '@/api/sys-manage/sysDict';
   import { Pagination } from '@/types/global';
   import useLoading from '@/hooks/loading';
-  import { useSysDictSearchStore } from '@/store/';
+  import useSysDictSearchStore from '@/store/modules/sys-manage/sysDict/list';
 
   import SysDictListSearch from './components/search.vue';
   import SysDictListAction from './components/action.vue';
