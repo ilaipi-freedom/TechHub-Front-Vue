@@ -14,27 +14,20 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: get-npm-version
-      id: package-version
-      uses: martinbeentjes/npm-get-version-action@v1.3.1
-
-    - name: define-tag
-      id: define-image-tag
-      run:
-        echo "IMAGE_TAG_NAME=${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ steps.package-version.outputs.current-version}}-$(date +%s)" >> $GITHUB_OUTPUT
-
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
+    - name: Login to Huawei Docker Hub
+      uses: docker/login-action@v3
       with:
+        registry: ${{ secrets.DOCKER_REGISTRY }}
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
 
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
         context: .
         push: true
-        tags: ${{ steps.define-image-tag.outputs.IMAGE_TAG_NAME}},${{ secrets.DOCKER_HUB_USERNAME }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
+        tags: ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_HUB_SPACE }}/${{ vars.DOCKER_IMAGE_NAME }}:latest
 
     -
       name: Tailscale
@@ -47,16 +40,16 @@ jobs:
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@v1.0.0
       with:
-        host: 192.168.5.202
+        host: ${{ secrets.SSH_HOST_202 }}
         username: ${{ secrets.SSH_USERNAME_202 }}
         key: ${{ secrets.SSH_KEY_202 }}
         port: ${{ secrets.SSH_PORT_202 }}
         script: |
-          docker pull ilaipi/freedom-front
+          docker pull ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_HUB_SPACE }}/${{ vars.DOCKER_IMAGE_NAME }}
 
           docker rm -f freedom_front
 
           docker run -dit --link freedom_backend \
             --name freedom_front \
             -p 39891:80 --restart always \
-            ilaipi/freedom-front
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_HUB_SPACE }}/${{ vars.DOCKER_IMAGE_NAME }}
