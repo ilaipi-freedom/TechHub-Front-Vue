@@ -39,6 +39,8 @@ jobs:
 
     - name: executing remote ssh commands using ssh key
       uses: appleboy/ssh-action@v1.0.0
+      env:
+        INPUT_DOCKER_CONTAINER_NAME: ${{ vars.DOCKER_CONTAINER_NAME }}
       with:
         host: ${{ secrets.SSH_HOST_202 }}
         username: ${{ secrets.SSH_USERNAME_202 }}
@@ -48,9 +50,11 @@ jobs:
           echo -n "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin ${{ secrets.DOCKER_REGISTRY }}
           docker pull ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_HUB_SPACE }}/${{ vars.DOCKER_IMAGE_NAME }}
 
-          docker rm -f freedom_front
+          if [ "$(docker ps -aq -f name=${INPUT_DOCKER_CONTAINER_NAME})" ]; then
+            docker rm -f ${{ vars.DOCKER_CONTAINER_NAME }}
+          fi
 
-          docker run -dit --link freedom_backend \
-            --name freedom_front \
+          docker run -dit --network freedom \
+            --name ${{ vars.DOCKER_CONTAINER_NAME }} \
             -p 39891:80 --restart always \
             ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_HUB_SPACE }}/${{ vars.DOCKER_IMAGE_NAME }}
